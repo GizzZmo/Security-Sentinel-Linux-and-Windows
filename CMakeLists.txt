@@ -23,11 +23,15 @@ add_executable(SecuritySentinel
     src/Dashboard.cpp
     src/AIAssistant.cpp
     src/Utils.cpp
+    src/GoCore.cpp
+    src/JsonReporting.cpp
+    src/IntegritySystem.cpp
 )
 
 # Link libraries
 target_link_libraries(SecuritySentinel 
     Threads::Threads
+    dl  # For dynamic loading of Go library
 )
 
 # Windows-specific libraries
@@ -37,6 +41,8 @@ if(WIN32)
         wininet
         iphlpapi
         psapi
+        wintrust
+        crypt32
     )
 endif()
 

@@ -2,6 +2,9 @@
 #include "ViewManager.h"
 #include "GeminiClient.h"
 #include "SecurityMonitor.h"
+#include "GoCore.h"
+#include "IntegritySystem.h"
+#include "JsonReporting.h"
 #include "Utils.h"
 #include <iostream>
 #include <memory>
@@ -16,6 +19,25 @@ SecurityApp::~SecurityApp() {
 
 bool SecurityApp::Initialize() {
     try {
+        // Perform integrity checks first
+        std::cout << "Performing startup integrity checks..." << std::endl;
+        if (!IntegritySystem::Initialize()) {
+            std::cerr << "WARNING: Integrity system initialization failed!" << std::endl;
+        }
+        
+        if (!IntegritySystem::QuickIntegrityCheck()) {
+            std::cerr << "WARNING: Quick integrity check failed!" << std::endl;
+        }
+        
+        // Initialize Go core for performance-critical operations
+        std::cout << "Initializing Go core module..." << std::endl;
+        int goResult = GoCore::Initialize();
+        if (goResult != 0) {
+            std::cout << "Go core initialization failed, falling back to C++ implementation." << std::endl;
+        } else {
+            std::cout << "Go core initialized successfully!" << std::endl;
+        }
+        
         // Load configuration
         auto& config = Utils::Config::Instance();
         if (!config.Load()) {
