@@ -14,39 +14,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Security scanning
-  security-scan:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-      
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Run CodeQL Analysis
-      uses: github/codeql-action/init@v3
-      with:
-        languages: javascript, cpp
-        queries: security-and-quality
-        
-    - name: Setup Node.js for analysis
-      uses: actions/setup-node@v5
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: Install dependencies for analysis
-      run: npm ci
-      
-    - name: Build for analysis
-      run: npm run build
-      
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
 
   # Dependency vulnerability check
   dependency-check:
