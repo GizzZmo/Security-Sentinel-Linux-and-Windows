@@ -1,6 +1,7 @@
 # Security Sentinel for Windows 11 & Linux
-<img width="1024" height="1024" alt="security-sentinel" src="https://github.com/user-attachments/assets/cbbc11eb-2681-4306-8551-e625de006226" />
 <img width="1024" height="1024" alt="Gemini_Generated_Image_wk4tblwk4tblwk4t" src="https://github.com/user-attachments/assets/177117b8-74b6-4424-9b4b-30dede8a4286" />
+<img width="1024" height="1024" alt="security-sentinel" src="https://github.com/user-attachments/assets/cbbc11eb-2681-4306-8551-e625de006226" />
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Windows 11](https://img.shields.io/badge/Windows-11-0078d4.svg)](https://www.microsoft.com/windows/)
