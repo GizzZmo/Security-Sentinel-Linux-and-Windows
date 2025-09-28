@@ -34,7 +34,8 @@ jobs:
         
         # Parse and display results
         if [ -s audit-report.json ]; then
-          vulnerabilities=$(cat audit-report.json | jq -r '.metadata.vulnerabilities | to_entries[] | "\(.key): \(.value)"' 2>/dev/null || echo "Unable to parse vulnerabilities")
+          # Basic parsing without jq for compatibility
+          vulnerabilities=$(grep -o '"vulnerabilities":{[^}]*}' audit-report.json | head -1 || echo "Unable to parse vulnerabilities")
           echo "**Vulnerabilities found:**" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "$vulnerabilities" >> $GITHUB_STEP_SUMMARY
