@@ -303,7 +303,7 @@ void ClearConsole() {
 #endif
 }
 
-void SetConsoleTitleW(const std::string& title) {
+void SetConsoleTitleWide(const std::string& title) {
 #ifdef _WIN32
     // Optimize: use a stack buffer for most titles, heap only if needed
     constexpr int STACK_BUFFER_SIZE = 256;
@@ -325,7 +325,7 @@ void SetConsoleTitleW(const std::string& title) {
 }
 
 void SetConsoleTitle(const std::string& title) {
-    SetConsoleTitleW(title);
+    SetConsoleTitleWide(title);
 }
 
 void SetConsoleColor(int foreground, int background) {

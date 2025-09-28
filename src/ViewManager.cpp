@@ -127,7 +127,7 @@ void ViewManager::ClearScreen() {
 }
 
 void ViewManager::SetTitle(const std::string& title) {
-    Utils::SetConsoleTitleW(title);
+    Utils::SetConsoleTitleWide(title);
 }
 
 void ViewManager::ShowStatusBar(const std::string& message) {
