@@ -1,5 +1,7 @@
 #include "GoCore.h"
+#ifdef __linux__
 #include <dlfcn.h>
+#endif
 #include <iostream>
 #include <cstdlib>
 
@@ -26,6 +28,7 @@ namespace GoCore {
     static bool initialized = false;
     
     // Helper to load function from shared library
+#ifdef __linux__
     template<typename T>
     bool LoadFunction(T& func, const char* name) {
         func = (T)dlsym(goLibHandle, name);
@@ -35,12 +38,14 @@ namespace GoCore {
         }
         return true;
     }
+#endif
     
     int Initialize() {
         if (initialized) {
             return 0;
         }
         
+#ifdef __linux__
         // Try to load the Go shared library
         const char* libPath = "./core-go/libsecurity_core.so";
         goLibHandle = dlopen(libPath, RTLD_LAZY);
@@ -75,6 +80,11 @@ namespace GoCore {
         }
         
         return result;
+#else
+        // Go core not available on non-Linux platforms
+        std::cout << "Go core module not available on this platform" << std::endl;
+        return -1;
+#endif
     }
     
     std::string GetSystemInfo() {
