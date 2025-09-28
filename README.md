@@ -1,4 +1,6 @@
 # Security Sentinel for Windows 11 & Linux
+<img width="1024" height="1024" alt="security-sentinel" src="https://github.com/user-attachments/assets/cbbc11eb-2681-4306-8551-e625de006226" />
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Windows 11](https://img.shields.io/badge/Windows-11-0078d4.svg)](https://www.microsoft.com/windows/)
@@ -9,6 +11,7 @@
 [![Gemini AI](https://img.shields.io/badge/Gemini-AI-4285f4.svg)](https://ai.google.dev/)
 
 ## 🚀 Build Status
+
 
 [![🌐 Web Interface CI](https://github.com/GizzZmo/security-sentinel-for-windows-11/actions/workflows/ci-web.yml/badge.svg)](https://github.com/GizzZmo/security-sentinel-for-windows-11/actions/workflows/ci-web.yml)
 [![🔨 C++ Build CI](https://github.com/GizzZmo/security-sentinel-for-windows-11/actions/workflows/ci-cpp.yml/badge.svg)](https://github.com/GizzZmo/security-sentinel-for-windows-11/actions/workflows/ci-cpp.yml)
