@@ -3,6 +3,7 @@
 <img width="1024" height="1024" alt="security-sentinel" src="https://github.com/user-attachments/assets/cbbc11eb-2681-4306-8551-e625de006226" />
 <img width="1024" height="1024" alt="Gemini_Generated_Image_amjyxlamjyxlamjy" src="https://github.com/user-attachments/assets/03637121-625f-4cf4-a76b-66d32229feb8" />
 <img width="1024" height="1024" alt="Gemini_Generated_Image_6pnui36pnui36pnu" src="https://github.com/user-attachments/assets/d0afcc01-5dbb-4350-b899-34f5ca1ce753" />
+<img width="1024" height="1024" alt="Gemini_Generated_Image_aj4os4aj4os4aj4o" src="https://github.com/user-attachments/assets/5a2960b1-0ae5-4b67-a431-a8c7e4363670" />
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
