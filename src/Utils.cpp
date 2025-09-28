@@ -623,8 +623,8 @@ void Config::SetBool(const std::string& section, const std::string& key, bool va
     SetString(section, key, value ? "true" : "false");
 }
 
-} // namespace Utils
-
-void Utils::SetConsoleTitle(const std::string& title) {
-    Utils::SetConsoleTitleWide(title);
+void SetConsoleTitle(const std::string& title) {
+    SetConsoleTitleWide(title);
 }
+
+} // namespace Utils
