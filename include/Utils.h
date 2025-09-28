@@ -71,19 +71,34 @@ namespace Utils {
         static Config& Instance();
         
         bool Load(const std::string& filename = "config.ini");
+        bool LoadJson(const std::string& filename = "config.json");
         bool Save(const std::string& filename = "config.ini");
+        bool SaveJson(const std::string& filename = "config.json");
         
         std::string GetString(const std::string& section, const std::string& key, 
                              const std::string& defaultValue = "") const;
         int GetInt(const std::string& section, const std::string& key, int defaultValue = 0) const;
         bool GetBool(const std::string& section, const std::string& key, bool defaultValue = false) const;
+        double GetDouble(const std::string& section, const std::string& key, double defaultValue = 0.0) const;
+        std::vector<std::string> GetStringArray(const std::string& section, const std::string& key) const;
         
         void SetString(const std::string& section, const std::string& key, const std::string& value);
         void SetInt(const std::string& section, const std::string& key, int value);
         void SetBool(const std::string& section, const std::string& key, bool value);
+        void SetDouble(const std::string& section, const std::string& key, double value);
+        
+        // JSON-style nested access
+        std::string GetNestedString(const std::string& path, const std::string& defaultValue = "") const;
+        int GetNestedInt(const std::string& path, int defaultValue = 0) const;
+        bool GetNestedBool(const std::string& path, bool defaultValue = false) const;
+        double GetNestedDouble(const std::string& path, double defaultValue = 0.0) const;
         
     private:
         std::map<std::string, std::map<std::string, std::string>> config_;
+        std::map<std::string, std::string> flatConfig_; // For nested JSON access
         Config() = default;
+        
+        void ParseJsonObject(const std::string& json, const std::string& prefix = "");
+        std::string GetJsonValue(const std::string& json, const std::string& key) const;
     };
 }

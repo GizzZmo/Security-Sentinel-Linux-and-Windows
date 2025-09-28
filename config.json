@@ -1,0 +1,111 @@
+{
+  "version": "1.0",
+  "gemini": {
+    "api_key": "YOUR_GEMINI_API_KEY_HERE",
+    "model": "gemini-2.5-flash",
+    "max_tokens": 1000,
+    "temperature": 0.7,
+    "timeout_seconds": 30
+  },
+  "monitoring": {
+    "enabled": true,
+    "update_interval_seconds": 5,
+    "log_level": "INFO",
+    "max_events": 10000,
+    "performance_monitoring": {
+      "cpu_threshold": 80.0,
+      "memory_threshold": 85.0,
+      "disk_threshold": 90.0
+    }
+  },
+  "network": {
+    "monitor_enabled": true,
+    "block_suspicious": true,
+    "whitelist_ips": [
+      "192.168.1.0/24",
+      "10.0.0.0/8",
+      "127.0.0.1"
+    ],
+    "scan_detection": {
+      "threshold": 5,
+      "time_window_minutes": 1
+    },
+    "ddos_detection": {
+      "threshold": 100,
+      "time_window_minutes": 1
+    }
+  },
+  "security": {
+    "integrity_checks": {
+      "enabled": true,
+      "check_interval_minutes": 30,
+      "baseline_file": "integrity.baseline"
+    },
+    "go_core": {
+      "enabled": true,
+      "library_path": "./core-go/libsecurity_core.so"
+    },
+    "digital_signature": {
+      "verify_on_startup": true,
+      "required_for_execution": false
+    }
+  },
+  "reporting": {
+    "json_output": true,
+    "report_format": "structured",
+    "export_formats": ["json", "csv", "html"],
+    "auto_save": {
+      "enabled": true,
+      "interval_minutes": 15,
+      "directory": "./reports"
+    }
+  },
+  "ui": {
+    "color_scheme": "dark",
+    "refresh_rate_ms": 1000,
+    "show_advanced": false,
+    "console": {
+      "enable_colors": true,
+      "clear_on_startup": true
+    }
+  },
+  "checks": {
+    "file_integrity": {
+      "enabled": true,
+      "scan_paths": [
+        "./",
+        "/etc/hosts",
+        "/etc/passwd"
+      ],
+      "exclude_patterns": [
+        "*.log",
+        "*.tmp",
+        "build/*"
+      ]
+    },
+    "registry_monitoring": {
+      "enabled": true,
+      "windows_keys": [
+        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+        "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+      ],
+      "linux_configs": [
+        "/etc/systemd/system",
+        "/etc/crontab",
+        "~/.bashrc"
+      ]
+    },
+    "directory_analysis": {
+      "enabled": true,
+      "scan_directories": [
+        "/tmp",
+        "/var/tmp",
+        "%TEMP%"
+      ],
+      "alert_thresholds": {
+        "file_count": 10000,
+        "total_size_mb": 1000
+      }
+    }
+  }
+}
