@@ -8,7 +8,6 @@ on:
     inputs:
       version:
         description: 'Release version (e.g., v1.0.0)'
-
         required: true
         type: string
 
@@ -25,13 +24,15 @@ jobs:
             artifact: windows
           - os: ubuntu-latest
             artifact: web
+          - os: ubuntu-latest
+            artifact: linux
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       
     # Web interface build (Ubuntu)
-    - name: Setup Node.js (Web)
+    - name: Setup Node.js (Web/Linux)
       if: matrix.os == 'ubuntu-latest'
       uses: actions/setup-node@v5
       with:
@@ -39,16 +40,78 @@ jobs:
         cache: 'npm'
         
     - name: Build web interface
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest' && matrix.artifact == 'web'
       run: |
         npm ci
         npm run build
         
     - name: Package web interface
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest' && matrix.artifact == 'web'
       run: |
+        # Create NPM package
+        npm pack --pack-destination=packages/
+        # Create web distribution archive
         cd dist
         tar -czf ../security-sentinel-web-${{ github.ref_name || inputs.version }}.tar.gz *
+        cd ..
+        
+    # Linux C++ build
+    - name: Build Linux application
+      if: matrix.os == 'ubuntu-latest' && matrix.artifact == 'linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake
+        mkdir build
+        cd build
+        cmake ..
+        make -j$(nproc)
+        
+    - name: Package Linux application
+      if: matrix.os == 'ubuntu-latest' && matrix.artifact == 'linux'
+      run: |
+        mkdir -p packages/linux-binary
+        cp build/bin/SecuritySentinel packages/linux-binary/
+        cp README.md LICENSE packages/linux-binary/
+        echo "[gemini]" > packages/linux-binary/config.ini
+        echo "api_key=YOUR_API_KEY_HERE" >> packages/linux-binary/config.ini
+        cd packages
+        tar -czf security-sentinel-linux-${{ github.ref_name || inputs.version }}.tar.gz linux-binary/
+        
+        # Create Debian package
+        cd ..
+        mkdir -p packages/debian/security-sentinel/DEBIAN
+        mkdir -p packages/debian/security-sentinel/usr/bin
+        mkdir -p packages/debian/security-sentinel/usr/share/security-sentinel
+        mkdir -p packages/debian/security-sentinel/etc/security-sentinel
+        
+        cp build/bin/SecuritySentinel packages/debian/security-sentinel/usr/bin/
+        cp README.md LICENSE packages/debian/security-sentinel/usr/share/security-sentinel/
+        echo "[gemini]" > packages/debian/security-sentinel/etc/security-sentinel/config.ini
+        echo "api_key=YOUR_API_KEY_HERE" >> packages/debian/security-sentinel/etc/security-sentinel/config.ini
+        
+        VERSION=${{ github.ref_name || inputs.version }}
+        VERSION=${VERSION#v}
+        
+        cat > packages/debian/security-sentinel/DEBIAN/control << EOF
+        Package: security-sentinel
+        Version: $VERSION
+        Section: utils
+        Priority: optional
+        Architecture: amd64
+        Depends: libc6 (>= 2.31), libstdc++6 (>= 10)
+        Maintainer: GizzZmo <maintainer@example.com>
+        Description: Security Sentinel - Advanced Security Monitoring
+         Security Sentinel is a comprehensive security monitoring application
+         with AI-powered threat analysis, real-time system monitoring,
+         and automated threat response capabilities.
+        Homepage: https://github.com/GizzZmo/Security-Sentinel
+        EOF
+        
+        cd packages/debian
+        dpkg-deb --build security-sentinel
+        mv security-sentinel.deb ../security-sentinel_${VERSION}_amd64.deb
+        cd ../..
+        rm -rf packages/debian
         
     # Windows C++ build
     - name: Setup MSVC (Windows)
@@ -78,20 +141,58 @@ jobs:
         echo "api_key=YOUR_API_KEY_HERE" | Out-File -FilePath "release-package/config.ini" -Append -Encoding ASCII
         Compress-Archive -Path "release-package/*" -DestinationPath "security-sentinel-windows-${{ github.ref_name || inputs.version }}.zip"
         
+    # Create checksums for all packages
+    - name: Create checksums
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        if [ -d "packages" ]; then
+          cd packages
+          for file in *; do
+            if [ -f "$file" ]; then
+              sha256sum "$file" >> checksums-${{ matrix.artifact }}.sha256
+            fi
+          done
+          cd ..
+        fi
+        
+    - name: Create checksums (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        if (Test-Path "security-sentinel-windows-*.zip") {
+          Get-FileHash security-sentinel-windows-*.zip -Algorithm SHA256 | 
+          ForEach-Object { "$($_.Hash.ToLower())  $($_.Path | Split-Path -Leaf)" } |
+          Out-File -FilePath "checksums-windows.sha256" -Encoding ASCII
+        }
+        
     # Upload artifacts
     - name: Upload web artifact
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest' && matrix.artifact == 'web'
       uses: actions/upload-artifact@v4
       with:
         name: web-release
-        path: security-sentinel-web-*.tar.gz
+        path: |
+          packages/*.tgz
+          security-sentinel-web-*.tar.gz
+          packages/checksums-web.sha256
+        
+    - name: Upload Linux artifact
+      if: matrix.os == 'ubuntu-latest' && matrix.artifact == 'linux'
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-release
+        path: |
+          packages/security-sentinel-linux-*.tar.gz
+          packages/security-sentinel_*_amd64.deb
+          packages/checksums-linux.sha256
         
     - name: Upload Windows artifact
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v4
       with:
         name: windows-release
-        path: security-sentinel-windows-*.zip
+        path: |
+          security-sentinel-windows-*.zip
+          checksums-windows.sha256
 
   # Create GitHub release
   create-release:
@@ -109,7 +210,14 @@ jobs:
       uses: actions/download-artifact@v5
       
     - name: Display structure
-      run: find . -type f -name "*.tar.gz" -o -name "*.zip"
+      run: find . -type f -name "*.tar.gz" -o -name "*.zip" -o -name "*.deb" -o -name "*.tgz" -o -name "*.sha256"
+      
+    - name: Consolidate checksums
+      run: |
+        echo "# Security Sentinel ${{ github.ref_name || inputs.version }} - File Checksums" > checksums.sha256
+        echo "# Generated on $(date -u)" >> checksums.sha256
+        echo "" >> checksums.sha256
+        find . -name "checksums-*.sha256" -exec cat {} \; >> checksums.sha256
       
     - name: Create Release
       uses: softprops/action-gh-release@v2
@@ -121,17 +229,26 @@ jobs:
         generate_release_notes: true
         files: |
           web-release/*.tar.gz
+          web-release/*.tgz
           windows-release/*.zip
+          linux-release/*.tar.gz
+          linux-release/*.deb
+          checksums.sha256
         body: |
-          ## Security Sentinel for Windows 11 - Release ${{ github.ref_name || inputs.version }}
+          ## Security Sentinel for Windows 11 & Linux - Release ${{ github.ref_name || inputs.version }}
           
           ### 📦 Downloads
           
           **Windows Native Application:**
           - `security-sentinel-windows-${{ github.ref_name || inputs.version }}.zip` - Complete Windows application with C++ native backend
           
+          **Linux Native Application:**
+          - `security-sentinel-linux-${{ github.ref_name || inputs.version }}.tar.gz` - Linux binary package
+          - `security-sentinel_*_amd64.deb` - Debian package for Ubuntu/Debian systems
+          
           **Web Interface:**
           - `security-sentinel-web-${{ github.ref_name || inputs.version }}.tar.gz` - Web interface build files
+          - `security-sentinel-web-interface-*.tgz` - NPM package for developers
           
           ### 🚀 Installation
           
@@ -140,18 +257,54 @@ jobs:
           2. Edit `config.ini` and add your Gemini API key
           3. Run `SecuritySentinel.exe` as Administrator
           
+          **Linux Application:**
+          ```bash
+          # Using .deb package (Ubuntu/Debian)
+          sudo dpkg -i security-sentinel_*_amd64.deb
+          sudo apt-get install -f  # Fix dependencies if needed
+          
+          # Using .tar.gz (any Linux)
+          tar -xzf security-sentinel-linux-*.tar.gz
+          cd linux-binary
+          # Edit config.ini with your API key
+          sudo ./SecuritySentinel
+          ```
+          
           **Web Interface:**
-          1. Download and extract the web tar.gz file
-          2. Serve the files using any web server
-          3. Configure your Gemini API key in the interface
+          ```bash
+          # For end users
+          tar -xzf security-sentinel-web-*.tar.gz
+          # Serve files with any web server
+          
+          # For developers
+          npm install @security-sentinel/web-interface
+          ```
           
           ### 📋 System Requirements
-          - Windows 11 (21H2 or later)
+          
+          **Windows:**
+          - Windows 11 (21H2 or later) or Windows 10 (1909 or later)
           - Administrator privileges (for native app)
+          - .NET Framework 4.8+ (usually pre-installed)
+          
+          **Linux:**
+          - Ubuntu 20.04+ / Debian 11+ / CentOS 8+ / Fedora 32+
+          - glibc 2.31+ and libstdc++6
+          - Root privileges for system monitoring
+          
+          **Both Platforms:**
           - Modern web browser (for web interface)
           - Internet connection (for AI features)
+          - 2GB RAM minimum, 4GB recommended
           
-          For detailed installation instructions, see [Installation Guide](https://github.com/GizzZmo/security-sentinel-for-windows-11/wiki/Installation-Guide.md)
+          ### 🔐 File Integrity
+          
+          All release files include SHA-256 checksums in `checksums.sha256`. Verify file integrity:
+          ```bash
+          sha256sum -c checksums.sha256
+          ```
+          
+          For detailed installation instructions, see [Installation Guide](https://github.com/GizzZmo/Security-Sentinel/wiki/Installation-Guide)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

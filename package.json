@@ -1,25 +1,74 @@
 {
-  "name": "windows-11-security-sentinel",
-  "private": true,
+  "name": "@security-sentinel/web-interface",
+  "private": false,
   "version": "1.1.0",
   "type": "module",
+  "description": "Web interface for Security Sentinel - Advanced security monitoring application with AI-powered threat analysis",
+  "keywords": [
+    "security",
+    "monitoring",
+    "threat-detection",
+    "windows",
+    "linux",
+    "ai",
+    "cybersecurity",
+    "network-security",
+    "real-time-monitoring"
+  ],
+  "homepage": "https://github.com/GizzZmo/Security-Sentinel#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GizzZmo/Security-Sentinel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GizzZmo/Security-Sentinel/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "GizzZmo",
+    "url": "https://github.com/GizzZmo"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "package": "npm run build && npm pack",
+    "prepublishOnly": "npm run type-check && npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "react": "^19.1.0",
     "@google/genai": "^1.10.0",
-    "react-dom": "^19.1.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
     "recharts": "^3.2.0"
   },
   "devDependencies": {
     "@types/node": "^24.5.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.4",
     "typescript": "~5.9.2",
     "vite": "^6.2.0"
-
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

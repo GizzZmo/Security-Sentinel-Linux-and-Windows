@@ -1,0 +1,23 @@
+# Created using wingetcreate 1.6.5.0  
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.6.0.schema.json
+
+PackageIdentifier: GizzZmo.SecuritySentinel
+PackageVersion: 1.1.0
+Platform:
+- Windows.Desktop
+MinimumOSVersion: 10.0.22000.0
+InstallerType: zip
+Scope: machine
+InstallModes:
+- interactive
+- silent
+UpgradeBehavior: install
+ReleaseDate: 2024-12-26
+Installers:
+- Architecture: x64
+  InstallerUrl: https://github.com/GizzZmo/Security-Sentinel/releases/download/v1.1.0/security-sentinel-windows-v1.1.0.zip
+  InstallerSha256: TBD_REPLACE_WITH_ACTUAL_SHA256
+  InstallerSwitches:
+    Custom: /SILENT
+ManifestType: installer
+ManifestVersion: 1.6.0
