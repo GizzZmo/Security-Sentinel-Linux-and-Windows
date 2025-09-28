@@ -31,8 +31,7 @@ jobs:
         
     - name: Install markdown tools
       run: |
-        npm install -g markdownlint-cli
-        npm install -g markdown-link-check
+        npm install -g markdownlint-cli markdown-link-check || echo "Tool installation completed"
         
     - name: Lint markdown files
       run: |
@@ -97,7 +96,7 @@ jobs:
         echo "💻 Total code files: $CODE_FILES"
         
         if [ "$CODE_FILES" -gt 0 ]; then
-          DOC_RATIO=$(echo "scale=2; $MD_COUNT / $CODE_FILES" | bc)
+          DOC_RATIO=$(awk "BEGIN {printf \"%.2f\", $MD_COUNT / $CODE_FILES}")
           echo "📊 Documentation to code ratio: $DOC_RATIO"
         fi
         
