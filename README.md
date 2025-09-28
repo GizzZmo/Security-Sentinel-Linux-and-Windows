@@ -1,4 +1,10 @@
 # Security Sentinel for Windows 11 & Linux
+<img width="1024" height="1024" alt="Gemini_Generated_Image_wk4tblwk4tblwk4t" src="https://github.com/user-attachments/assets/177117b8-74b6-4424-9b4b-30dede8a4286" />
+<img width="1024" height="1024" alt="security-sentinel" src="https://github.com/user-attachments/assets/cbbc11eb-2681-4306-8551-e625de006226" />
+<img width="1024" height="1024" alt="Gemini_Generated_Image_amjyxlamjyxlamjy" src="https://github.com/user-attachments/assets/03637121-625f-4cf4-a76b-66d32229feb8" />
+<img width="1024" height="1024" alt="Gemini_Generated_Image_6pnui36pnui36pnu" src="https://github.com/user-attachments/assets/d0afcc01-5dbb-4350-b899-34f5ca1ce753" />
+<img width="1024" height="1024" alt="Gemini_Generated_Image_aj4os4aj4os4aj4o" src="https://github.com/user-attachments/assets/5a2960b1-0ae5-4b67-a431-a8c7e4363670" />
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Windows 11](https://img.shields.io/badge/Windows-11-0078d4.svg)](https://www.microsoft.com/windows/)
@@ -9,6 +15,7 @@
 [![Gemini AI](https://img.shields.io/badge/Gemini-AI-4285f4.svg)](https://ai.google.dev/)
 
 ## 🚀 Build Status
+
 
 [![🌐 Web Interface CI](https://github.com/GizzZmo/security-sentinel-for-windows-11/actions/workflows/ci-web.yml/badge.svg)](https://github.com/GizzZmo/security-sentinel-for-windows-11/actions/workflows/ci-web.yml)
 [![🔨 C++ Build CI](https://github.com/GizzZmo/security-sentinel-for-windows-11/actions/workflows/ci-cpp.yml/badge.svg)](https://github.com/GizzZmo/security-sentinel-for-windows-11/actions/workflows/ci-cpp.yml)
