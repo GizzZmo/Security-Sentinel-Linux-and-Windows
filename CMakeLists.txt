@@ -31,10 +31,16 @@ add_executable(SecuritySentinel
 # Link libraries
 target_link_libraries(SecuritySentinel 
     Threads::Threads
-    dl  # For dynamic loading of Go library
 )
 
-# Windows-specific libraries
+# Linux-specific libraries
+if(NOT WIN32)
+    target_link_libraries(SecuritySentinel 
+        dl  # For dynamic loading of Go library
+    )
+endif()
+
+# Windows-specific libraries and definitions
 if(WIN32)
     target_link_libraries(SecuritySentinel 
         ws2_32 
@@ -43,6 +49,12 @@ if(WIN32)
         psapi
         wintrust
         crypt32
+    )
+    
+    target_compile_definitions(SecuritySentinel PRIVATE
+        _WIN32_WINNT=0x0A00  # Windows 10+
+        UNICODE
+        _UNICODE
     )
 endif()
 
@@ -53,10 +65,3 @@ set_target_properties(SecuritySentinel PROPERTIES
 
 # Enable modern C++ features
 target_compile_features(SecuritySentinel PRIVATE cxx_std_17)
-
-# Add compile definitions
-target_compile_definitions(SecuritySentinel PRIVATE
-    _WIN32_WINNT=0x0A00  # Windows 10+
-    UNICODE
-    _UNICODE
-)
