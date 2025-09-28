@@ -324,10 +324,6 @@ void SetConsoleTitleWide(const std::string& title) {
 #endif
 }
 
-void SetConsoleTitle(const std::string& title) {
-    SetConsoleTitleWide(title);
-}
-
 void SetConsoleColor(int foreground, int background) {
 #ifdef _WIN32
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -628,3 +624,7 @@ void Config::SetBool(const std::string& section, const std::string& key, bool va
 }
 
 } // namespace Utils
+
+void Utils::SetConsoleTitle(const std::string& title) {
+    Utils::SetConsoleTitleWide(title);
+}
