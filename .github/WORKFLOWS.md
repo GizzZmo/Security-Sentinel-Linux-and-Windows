@@ -238,6 +238,11 @@ Comprehensive security analysis including dependency scanning, code analysis, an
 - Detailed vulnerability reporting
 - License compliance tracking
 - Secret detection with verification
+- **C++ CodeQL Analysis** - Proper C++ source code compilation and analysis
+  - Installs build dependencies (cmake, build-essential)
+  - Compiles C++ code with Debug configuration
+  - Verifies successful build before CodeQL analysis
+  - Supports both JavaScript/TypeScript and C++ code analysis
 
 ### **Artifacts**
 - Security audit reports (30-day retention)
@@ -254,11 +259,13 @@ Automated code quality checks and style enforcement across all languages.
 - Weekly schedule (Mondays at 9 AM UTC)
 
 ### **Jobs**
-1. **ESLint** - JavaScript/TypeScript linting with auto-configuration
-2. **Prettier** - Code formatting validation with auto-configuration
-3. **C++ Lint** - clang-format and cppcheck analysis
-4. **Documentation Check** - Documentation quality and completeness
-5. **Dependency Analysis** - Dependency health and bundle size analysis
+1. **Dependency Check** - npm audit with vulnerability assessment
+2. **License Check** - License compliance verification
+3. **Code Style** - Code formatting and style validation  
+4. **Documentation Quality** - Documentation completeness and markdown linting
+5. **Performance Check** - Bundle size analysis and optimization recommendations
+
+*Note: CodeQL security analysis has been moved to the Security Scanning workflow to avoid conflicts and ensure proper C++ code compilation.*
 
 ### **Features**
 - Auto-generates linter configs if missing
