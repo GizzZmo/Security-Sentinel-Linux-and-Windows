@@ -1,0 +1,63 @@
+# Created using wingetcreate 1.6.5.0
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
+
+PackageIdentifier: GizzZmo.SecuritySentinel
+PackageVersion: 1.1.0
+PackageLocale: en-US
+Publisher: GizzZmo
+PublisherUrl: https://github.com/GizzZmo
+PublisherSupportUrl: https://github.com/GizzZmo/Security-Sentinel/issues
+PackageName: Security Sentinel
+PackageUrl: https://github.com/GizzZmo/Security-Sentinel
+License: MIT
+LicenseUrl: https://github.com/GizzZmo/Security-Sentinel/blob/main/LICENSE
+ShortDescription: Advanced security monitoring application with AI-powered threat analysis
+Description: |-
+  Security Sentinel is a comprehensive security monitoring application that provides real-time threat monitoring, 
+  detailed protection analysis, and an AI-powered security assistant to safeguard against sophisticated network 
+  tools and attack vectors.
+  
+  Features include:
+  - Real-time process and network monitoring
+  - AI-powered threat analysis using Google Gemini
+  - Automated IP blocking and threat response
+  - Cross-platform support (Windows/Linux)
+  - Web-based dashboard interface
+  - Behavioral anomaly detection
+  - Port scan and DDoS protection
+Moniker: security-sentinel
+Tags:
+- security
+- monitoring
+- threat-detection
+- cybersecurity
+- network-security
+- ai
+- windows
+- protection
+ReleaseNotes: |-
+  ## Security Sentinel v1.1.0
+  
+  ### Added
+  - Comprehensive WIKI documentation with 15+ detailed guides
+  - Detailed About page explaining project mission and features
+  - Contributing guidelines for developers
+  - Issue templates for better bug reporting and feature requests
+  - Troubleshooting guide with common issues and solutions
+  
+  ### Changed
+  - Enhanced README with better organization and navigation
+  - Enhanced project structure with better documentation organization
+  
+  ### Fixed
+  - Icon import casing issues in React components
+ReleaseNotesUrl: https://github.com/GizzZmo/Security-Sentinel/blob/main/CHANGELOG.md
+PurchaseUrl: https://github.com/GizzZmo/Security-Sentinel/releases
+InstallationNotes: Run as Administrator for full functionality. Configure your Gemini API key in config.ini after installation.
+Documentations:
+- DocumentLabel: User Guide
+  DocumentUrl: https://github.com/GizzZmo/Security-Sentinel/wiki
+- DocumentLabel: Installation Guide  
+  DocumentUrl: https://github.com/GizzZmo/Security-Sentinel/wiki/Installation-Guide
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0

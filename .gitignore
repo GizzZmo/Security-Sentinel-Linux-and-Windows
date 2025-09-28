@@ -54,6 +54,13 @@ x64/
 config.ini
 *.env
 
+# Package artifacts (temporary)
+packages/
+*.tgz
+*.deb
+*.msi
+*.rpm
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
