@@ -86,10 +86,19 @@ jobs:
         sudo apt-get install -y cmake build-essential
         
         # Configure and build
-        mkdir build
+        mkdir -p build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=Debug
-        make -j$(nproc) || true  # Continue even if build fails
+        make -j$(nproc)
+        
+        # Verify the build was successful
+        if [ -f "bin/SecuritySentinel" ]; then
+          echo "✅ C++ build successful"
+          ls -la bin/
+        else
+          echo "❌ C++ build failed - executable not found"
+          exit 1
+        fi
         
     - name: 🔍 Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
