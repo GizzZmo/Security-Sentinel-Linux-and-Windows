@@ -13,250 +13,250 @@ import (
 	"time"
 )
 
-// SecurityCore provides high-performance core security functions
-type SecurityCore struct {
-	initialized bool
+// SecuritySentinelCore provides high-performance core security monitoring functions
+type SecuritySentinelCore struct {
+	securityInitialized bool
 }
 
-// CheckResult represents the standardized output format
-type CheckResult struct {
-	CheckID        string            `json:"check_id"`
-	Status         string            `json:"status"` // "pass", "fail", "warning", "error"
-	Severity       string            `json:"severity"` // "critical", "high", "medium", "low", "info"
-	Description    string            `json:"description"`
-	Details        map[string]string `json:"details,omitempty"`
-	Remediation    string            `json:"remediation_steps,omitempty"`
-	Timestamp      int64             `json:"timestamp"`
-	ExecutionTime  float64           `json:"execution_time_ms"`
+// SecurityCheckResult represents the standardized security analysis output format
+type SecurityCheckResult struct {
+	SecurityCheckID    string            `json:"security_check_id"`
+	SecurityStatus     string            `json:"security_status"` // "secure", "vulnerable", "warning", "critical_error"
+	ThreatSeverity     string            `json:"threat_severity"` // "critical", "high", "medium", "low", "info"
+	SecurityAnalysis   string            `json:"security_analysis"`
+	ThreatDetails      map[string]string `json:"threat_details,omitempty"`
+	MitigationSteps    string            `json:"mitigation_steps,omitempty"`
+	SecurityTimestamp  int64             `json:"security_timestamp"`
+	AnalysisTimeMs     float64           `json:"analysis_time_ms"`
 }
 
-// SystemInfo provides comprehensive system information
-type SystemInfo struct {
-	OS           string `json:"os"`
-	Architecture string `json:"architecture"`
-	Hostname     string `json:"hostname"`
-	Uptime       int64  `json:"uptime_seconds"`
-	CPUCount     int    `json:"cpu_count"`
+// SystemSecurityInfo provides comprehensive system security information
+type SystemSecurityInfo struct {
+	OperatingSystem     string `json:"operating_system"`
+	SystemArchitecture  string `json:"system_architecture"`
+	SecurityHostname    string `json:"security_hostname"`
+	SystemUptimeSeconds int64  `json:"system_uptime_seconds"`
+	SecurityCPUCount    int    `json:"security_cpu_count"`
 }
 
-// Global instance
-var core SecurityCore
+// Global security core instance
+var securityCore SecuritySentinelCore
 
-//export InitializeCore
-func InitializeCore() int {
-	if core.initialized {
+//export InitializeSecurityCore
+func InitializeSecurityCore() int {
+	if securityCore.securityInitialized {
 		return 1
 	}
 	
-	core.initialized = true
-	log.Printf("Security Core initialized (Go %s)", runtime.Version())
+	securityCore.securityInitialized = true
+	log.Printf("Security Sentinel Core initialized (Go %s)", runtime.Version())
 	return 0
 }
 
-//export GetSystemInfo
-func GetSystemInfo() *C.char {
+//export GetSystemSecurityInfo
+func GetSystemSecurityInfo() *C.char {
 	hostname, _ := os.Hostname()
 	
-	info := SystemInfo{
-		OS:           runtime.GOOS,
-		Architecture: runtime.GOARCH,
-		Hostname:     hostname,
-		CPUCount:     runtime.NumCPU(),
+	securityInfo := SystemSecurityInfo{
+		OperatingSystem:     runtime.GOOS,
+		SystemArchitecture:  runtime.GOARCH,
+		SecurityHostname:    hostname,
+		SecurityCPUCount:    runtime.NumCPU(),
 	}
 	
-	jsonData, err := json.Marshal(info)
+	jsonData, err := json.Marshal(securityInfo)
 	if err != nil {
-		return C.CString(fmt.Sprintf(`{"error": "%s"}`, err.Error()))
+		return C.CString(fmt.Sprintf(`{"security_error": "%s"}`, err.Error()))
 	}
 	
 	return C.CString(string(jsonData))
 }
 
-//export PerformFileIntegrityCheck
-func PerformFileIntegrityCheck(filepath *C.char) *C.char {
-	goFilepath := C.GoString(filepath)
+//export PerformSecurityFileIntegrityCheck
+func PerformSecurityFileIntegrityCheck(securityFilepath *C.char) *C.char {
+	goSecurityFilepath := C.GoString(securityFilepath)
 	
-	result := CheckResult{
-		CheckID:     "file_integrity",
-		Status:      "pass",
-		Severity:    "info",
-		Description: fmt.Sprintf("File integrity check for %s", goFilepath),
-		Details:     make(map[string]string),
+	securityResult := SecurityCheckResult{
+		SecurityCheckID:   "security_file_integrity",
+		SecurityStatus:    "secure",
+		ThreatSeverity:    "info",
+		SecurityAnalysis:  fmt.Sprintf("File integrity security check for %s", goSecurityFilepath),
+		ThreatDetails:     make(map[string]string),
 	}
 	
-	start := getCurrentTimestamp()
+	securityStart := getCurrentSecurityTimestamp()
 	
-	// Check if file exists
-	if _, err := os.Stat(goFilepath); os.IsNotExist(err) {
-		result.Status = "fail"
-		result.Severity = "high"
-		result.Description = "File does not exist"
-		result.Details["error"] = err.Error()
+	// Check if security-critical file exists
+	if _, err := os.Stat(goSecurityFilepath); os.IsNotExist(err) {
+		securityResult.SecurityStatus = "vulnerable"
+		securityResult.ThreatSeverity = "high"
+		securityResult.SecurityAnalysis = "Security-critical file does not exist"
+		securityResult.ThreatDetails["security_error"] = err.Error()
 	} else {
-		// Calculate SHA-256 hash
-		hash, err := calculateSHA256(goFilepath)
+		// Calculate SHA-256 hash for security verification
+		securityHash, err := calculateSecuritySHA256(goSecurityFilepath)
 		if err != nil {
-			result.Status = "error"
-			result.Severity = "medium"
-			result.Details["error"] = err.Error()
+			securityResult.SecurityStatus = "critical_error"
+			securityResult.ThreatSeverity = "medium"
+			securityResult.ThreatDetails["security_error"] = err.Error()
 		} else {
-			result.Details["sha256"] = hash
-			result.Details["file_path"] = goFilepath
+			securityResult.ThreatDetails["security_sha256"] = securityHash
+			securityResult.ThreatDetails["security_file_path"] = goSecurityFilepath
 		}
 	}
 	
-	result.Timestamp = getCurrentTimestamp()
-	result.ExecutionTime = float64(getCurrentTimestamp()-start) / 1000.0
+	securityResult.SecurityTimestamp = getCurrentSecurityTimestamp()
+	securityResult.AnalysisTimeMs = float64(getCurrentSecurityTimestamp()-securityStart) / 1000.0
 	
-	jsonData, err := json.Marshal(result)
+	jsonData, err := json.Marshal(securityResult)
 	if err != nil {
-		return C.CString(fmt.Sprintf(`{"error": "%s"}`, err.Error()))
+		return C.CString(fmt.Sprintf(`{"security_error": "%s"}`, err.Error()))
 	}
 	
 	return C.CString(string(jsonData))
 }
 
-//export PerformRegistryCheck
-func PerformRegistryCheck(keyPath *C.char) *C.char {
-	goKeyPath := C.GoString(keyPath)
+//export PerformSecurityRegistryAnalysis
+func PerformSecurityRegistryAnalysis(securityKeyPath *C.char) *C.char {
+	goSecurityKeyPath := C.GoString(securityKeyPath)
 	
-	result := CheckResult{
-		CheckID:     "registry_check",
-		Status:      "info",
-		Severity:    "info", 
-		Description: fmt.Sprintf("Registry check for %s", goKeyPath),
-		Details:     make(map[string]string),
+	securityResult := SecurityCheckResult{
+		SecurityCheckID:   "security_registry_analysis",
+		SecurityStatus:    "info",
+		ThreatSeverity:    "info", 
+		SecurityAnalysis:  fmt.Sprintf("Security registry analysis for %s", goSecurityKeyPath),
+		ThreatDetails:     make(map[string]string),
 	}
 	
-	start := getCurrentTimestamp()
+	securityStart := getCurrentSecurityTimestamp()
 	
 	if runtime.GOOS == "windows" {
-		// Windows registry check (placeholder - would need Windows-specific implementation)
-		result.Details["registry_key"] = goKeyPath
-		result.Details["platform"] = "windows"
-		result.Status = "pass"
+		// Windows security registry check (placeholder - would need Windows-specific implementation)
+		securityResult.ThreatDetails["security_registry_key"] = goSecurityKeyPath
+		securityResult.ThreatDetails["security_platform"] = "windows"
+		securityResult.SecurityStatus = "secure"
 	} else {
-		// Linux equivalent - check configuration files
-		result.Details["config_equivalent"] = goKeyPath
-		result.Details["platform"] = "linux"
-		result.Status = "pass"
+		// Linux equivalent - check security configuration files
+		securityResult.ThreatDetails["security_config_equivalent"] = goSecurityKeyPath
+		securityResult.ThreatDetails["security_platform"] = "linux"
+		securityResult.SecurityStatus = "secure"
 	}
 	
-	result.Timestamp = getCurrentTimestamp()
-	result.ExecutionTime = float64(getCurrentTimestamp()-start) / 1000.0
+	securityResult.SecurityTimestamp = getCurrentSecurityTimestamp()
+	securityResult.AnalysisTimeMs = float64(getCurrentSecurityTimestamp()-securityStart) / 1000.0
 	
-	jsonData, err := json.Marshal(result)
+	jsonData, err := json.Marshal(securityResult)
 	if err != nil {
-		return C.CString(fmt.Sprintf(`{"error": "%s"}`, err.Error()))
+		return C.CString(fmt.Sprintf(`{"security_error": "%s"}`, err.Error()))
 	}
 	
 	return C.CString(string(jsonData))
 }
 
-//export PerformDirectoryAnalysis
-func PerformDirectoryAnalysis(dirPath *C.char) *C.char {
-	goDirPath := C.GoString(dirPath)
+//export PerformSecurityDirectoryThreatAnalysis
+func PerformSecurityDirectoryThreatAnalysis(securityDirPath *C.char) *C.char {
+	goSecurityDirPath := C.GoString(securityDirPath)
 	
-	result := CheckResult{
-		CheckID:     "directory_analysis",
-		Status:      "pass",
-		Severity:    "info",
-		Description: fmt.Sprintf("Directory analysis for %s", goDirPath),
-		Details:     make(map[string]string),
+	securityResult := SecurityCheckResult{
+		SecurityCheckID:   "security_directory_threat_analysis",
+		SecurityStatus:    "secure",
+		ThreatSeverity:    "info",
+		SecurityAnalysis:  fmt.Sprintf("Security directory threat analysis for %s", goSecurityDirPath),
+		ThreatDetails:     make(map[string]string),
 	}
 	
-	start := getCurrentTimestamp()
+	securityStart := getCurrentSecurityTimestamp()
 	
-	// Analyze directory structure and contents
-	fileCount, dirCount, totalSize, err := analyzeDirectory(goDirPath)
+	// Analyze directory structure for security threats
+	fileCount, dirCount, totalSize, err := analyzeSecurityDirectory(goSecurityDirPath)
 	if err != nil {
-		result.Status = "error"
-		result.Severity = "medium"
-		result.Details["error"] = err.Error()
+		securityResult.SecurityStatus = "critical_error"
+		securityResult.ThreatSeverity = "medium"
+		securityResult.ThreatDetails["security_error"] = err.Error()
 	} else {
-		result.Details["directory_path"] = goDirPath
-		result.Details["file_count"] = fmt.Sprintf("%d", fileCount)
-		result.Details["subdirectory_count"] = fmt.Sprintf("%d", dirCount)
-		result.Details["total_size_bytes"] = fmt.Sprintf("%d", totalSize)
+		securityResult.ThreatDetails["security_directory_path"] = goSecurityDirPath
+		securityResult.ThreatDetails["security_file_count"] = fmt.Sprintf("%d", fileCount)
+		securityResult.ThreatDetails["security_subdirectory_count"] = fmt.Sprintf("%d", dirCount)
+		securityResult.ThreatDetails["security_total_size_bytes"] = fmt.Sprintf("%d", totalSize)
 		
-		// Security assessment
+		// Security threat assessment
 		if fileCount > 10000 {
-			result.Status = "warning"
-			result.Severity = "medium"
-			result.Description += " - Large number of files detected"
+			securityResult.SecurityStatus = "warning"
+			securityResult.ThreatSeverity = "medium"
+			securityResult.SecurityAnalysis += " - Large number of files detected (potential security risk)"
 		}
 		
 		if totalSize > 1024*1024*1024 { // 1GB
-			result.Status = "warning"
-			result.Severity = "low"
-			result.Description += " - Large directory size detected"
+			securityResult.SecurityStatus = "warning"
+			securityResult.ThreatSeverity = "low"
+			securityResult.SecurityAnalysis += " - Large directory size detected (monitoring recommended)"
 		}
 	}
 	
-	result.Timestamp = getCurrentTimestamp()
-	result.ExecutionTime = float64(getCurrentTimestamp()-start) / 1000.0
+	securityResult.SecurityTimestamp = getCurrentSecurityTimestamp()
+	securityResult.AnalysisTimeMs = float64(getCurrentSecurityTimestamp()-securityStart) / 1000.0
 	
-	jsonData, err := json.Marshal(result)
+	jsonData, err := json.Marshal(securityResult)
 	if err != nil {
-		return C.CString(fmt.Sprintf(`{"error": "%s"}`, err.Error()))
+		return C.CString(fmt.Sprintf(`{"security_error": "%s"}`, err.Error()))
 	}
 	
 	return C.CString(string(jsonData))
 }
 
-//export FreeString
-func FreeString(str *C.char) {
+//export FreeSecurityString
+func FreeSecurityString(securityStr *C.char) {
 	// Go's garbage collector will handle this
-	// This is here for C interop compatibility
+	// This is here for C interop compatibility with security components
 }
 
 func main() {
 	// This main function is required for building as a C shared library
-	fmt.Println("Security Sentinel Core Module (Go)")
+	fmt.Println("Security Sentinel Core Module (Go) - Enhanced Security Operations")
 }
 
-// Helper functions
-func getCurrentTimestamp() int64 {
+// Helper functions for security operations
+func getCurrentSecurityTimestamp() int64 {
 	return time.Now().UnixNano() / int64(time.Millisecond)
 }
 
-func getCurrentTimestampMillis() int64 {
+func getCurrentSecurityTimestampMillis() int64 {
 	return time.Now().UnixNano() / int64(time.Millisecond)
 }
 
-func calculateSHA256(filePath string) (string, error) {
-	file, err := os.Open(filePath)
+func calculateSecuritySHA256(securityFilePath string) (string, error) {
+	securityFile, err := os.Open(securityFilePath)
 	if err != nil {
 		return "", err
 	}
-	defer file.Close()
+	defer securityFile.Close()
 	
-	hash := sha256.New()
-	if _, err := io.Copy(hash, file); err != nil {
+	securityHash := sha256.New()
+	if _, err := io.Copy(securityHash, securityFile); err != nil {
 		return "", err
 	}
 	
-	return fmt.Sprintf("%x", hash.Sum(nil)), nil
+	return fmt.Sprintf("%x", securityHash.Sum(nil)), nil
 }
 
-func analyzeDirectory(dirPath string) (int, int, int64, error) {
-	var fileCount, dirCount int
-	var totalSize int64
+func analyzeSecurityDirectory(securityDirPath string) (int, int, int64, error) {
+	var securityFileCount, securityDirCount int
+	var securityTotalSize int64
 	
-	err := filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk(securityDirPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		
 		if info.IsDir() {
-			dirCount++
+			securityDirCount++
 		} else {
-			fileCount++
-			totalSize += info.Size()
+			securityFileCount++
+			securityTotalSize += info.Size()
 		}
 		
 		return nil
 	})
 	
-	return fileCount, dirCount, totalSize, err
+	return securityFileCount, securityDirCount, securityTotalSize, err
 }

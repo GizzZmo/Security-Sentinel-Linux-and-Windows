@@ -8,57 +8,57 @@
 class SecurityApp;
 
 /**
- * Manages different views/screens in the application
- * Handles navigation and view state
+ * Manages different security monitoring views/screens in the application
+ * Handles navigation between security modules and view state management
  */
-class ViewManager {
+class SecurityViewManager {
 public:
-    enum class View {
-        Dashboard,
-        NetworkMonitor,
-        ThreatProtection,
-        AIAssistant
+    enum class SecurityView {
+        SecurityDashboard,
+        NetworkTrafficMonitor,
+        ThreatDetectionCenter,
+        SecurityAIAssistant
     };
 
-    explicit ViewManager(SecurityApp* app);
-    ~ViewManager();
+    explicit SecurityViewManager(SecurityApp* app);
+    ~SecurityViewManager();
 
-    // View management
-    void ShowView(View view);
-    void ShowView(const std::string& viewName);
-    View GetCurrentView() const { return currentView_; }
-    std::string GetCurrentViewName() const;
+    // Security view management
+    void ShowSecurityView(SecurityView view);
+    void ShowSecurityView(const std::string& viewName);
+    SecurityView GetCurrentSecurityView() const { return currentSecurityView_; }
+    std::string GetCurrentSecurityViewName() const;
 
-    // Console-based UI management
-    void InitializeConsole();
-    void ShowMainMenu();
-    void HandleUserInput();
-    void ClearScreen();
-    void SetTitle(const std::string& title);
+    // Security console-based UI management
+    void InitializeSecurityConsole();
+    void ShowSecurityMainMenu();
+    void HandleSecurityUserInput();
+    void ClearSecurityScreen();
+    void SetSecurityTitle(const std::string& title);
 
-    // Status and messaging
-    void ShowStatusBar(const std::string& message = "");
-    void ShowError(const std::string& error);
-    void ShowSuccess(const std::string& message);
+    // Security status and messaging
+    void ShowSecurityStatusBar(const std::string& message = "");
+    void ShowSecurityError(const std::string& error);
+    void ShowSecuritySuccess(const std::string& message);
 
 private:
-    SecurityApp* app_;
-    View currentView_;
-    bool isRunning_;
+    SecurityApp* securityApp_;
+    SecurityView currentSecurityView_;
+    bool isSecurityRunning_;
 
-    // View implementations
-    void ShowDashboard();
-    void ShowNetworkMonitor();
-    void ShowThreatProtection();
-    void ShowAIAssistant();
+    // Security view implementations
+    void ShowSecurityDashboard();
+    void ShowNetworkTrafficMonitor();
+    void ShowThreatDetectionCenter();
+    void ShowSecurityAIAssistant();
 
-    // UI helpers
-    void PrintHeader(const std::string& title);
-    void PrintSeparator();
-    std::string GetUserInput(const std::string& prompt);
-    int GetMenuChoice(int maxChoice);
+    // UI helpers for security interface
+    void PrintSecurityHeader(const std::string& title);
+    void PrintSecuritySeparator();
+    std::string GetSecurityUserInput(const std::string& prompt);
+    int GetSecurityMenuChoice(int maxChoice);
     
-    // Console color support
-    void SetConsoleColor(int color);
-    void ResetConsoleColor();
+    // Console color support for security interface
+    void SetSecurityConsoleColor(int color);
+    void ResetSecurityConsoleColor();
 };

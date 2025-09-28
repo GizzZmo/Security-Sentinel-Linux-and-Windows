@@ -7,40 +7,40 @@
 #include <chrono>
 
 // Forward declarations
-class ViewManager;
-class GeminiClient;
-class SecurityMonitor;
+class SecurityViewManager;
+class SecurityGeminiClient;
+class SystemSecurityMonitor;
 
 /**
- * Main application class for Windows 11 Security Sentinel
- * Coordinates all components and manages application lifecycle
+ * Main security application class for Windows 11 & Linux Security Sentinel
+ * Coordinates all security components and manages application lifecycle
  */
-class SecurityApp {
+class SecuritySentinelApp {
 public:
-    SecurityApp();
-    ~SecurityApp();
+    SecuritySentinelApp();
+    ~SecuritySentinelApp();
 
-    // Application lifecycle
-    bool Initialize();
-    int Run();
-    void Shutdown();
+    // Security application lifecycle
+    bool InitializeSecurity();
+    int RunSecurityMonitoring();
+    void ShutdownSecurity();
 
-    // View management
-    void ShowView(const std::string& viewName);
-    void SetStatusMessage(const std::string& message);
+    // Security view management
+    void ShowSecurityView(const std::string& viewName);
+    void SetSecurityStatusMessage(const std::string& message);
 
-    // Getters for components
-    GeminiClient* GetGeminiClient() const { return geminiClient_.get(); }
-    SecurityMonitor* GetSecurityMonitor() const { return securityMonitor_.get(); }
+    // Getters for security components
+    SecurityGeminiClient* GetSecurityGeminiClient() const { return securityGeminiClient_.get(); }
+    SystemSecurityMonitor* GetSystemSecurityMonitor() const { return systemSecurityMonitor_.get(); }
 
 private:
-    std::unique_ptr<ViewManager> viewManager_;
-    std::unique_ptr<GeminiClient> geminiClient_;
-    std::unique_ptr<SecurityMonitor> securityMonitor_;
+    std::unique_ptr<SecurityViewManager> securityViewManager_;
+    std::unique_ptr<SecurityGeminiClient> securityGeminiClient_;
+    std::unique_ptr<SystemSecurityMonitor> systemSecurityMonitor_;
     
-    bool isRunning_;
-    std::string statusMessage_;
+    bool isSecurityRunning_;
+    std::string securityStatusMessage_;
 
-    void InitializeComponents();
-    void SetupEventHandlers();
+    void InitializeSecurityComponents();
+    void SetupSecurityEventHandlers();
 };
