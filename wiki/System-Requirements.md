@@ -61,7 +61,7 @@ Complete system requirements and compatibility information for Security Sentinel
 ### Web Interface
 
 #### Required Dependencies
-- **Node.js**: Version 18.0.0 or later
+- **Node.js**: Version 20.19.0 or later
 - **npm**: Version 8.0.0 or later (included with Node.js)
 - **Modern Browser**: Chrome 100+, Firefox 100+, Edge 100+
 
@@ -142,7 +142,7 @@ Complete system requirements and compatibility information for Security Sentinel
 - [ ] Windows Defender exclusions configured (optional)
 
 #### For Web Interface
-- [ ] Node.js 18+ installed
+- [ ] Node.js 20.19+ installed
 - [ ] Modern browser available
 - [ ] Administrator privileges (for npm global packages)
 - [ ] Git installed (for cloning repository)
