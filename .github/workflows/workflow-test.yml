@@ -210,8 +210,13 @@ jobs:
         echo "Testing CMake availability on ${{ matrix.os }}..."
         cmake --version || echo "CMake not available"
         
-    - name: Test file operations
+    - name: Test file operations on ${{ matrix.os }}
       run: |
         echo "Testing file operations on ${{ matrix.os }}..."
-        ls -la
+        if [ "$RUNNER_OS" = "Windows" ]; then
+          dir
+        else
+          ls -la
+        fi
         echo "✅ File operations successful on ${{ matrix.os }}"
+      shell: bash
