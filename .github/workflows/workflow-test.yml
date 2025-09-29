@@ -44,7 +44,7 @@ jobs:
     - name: Check workflow names are unique
       run: |
         echo "Checking for unique workflow names..."
-        WORKFLOW_NAMES=$(grep "^name:" .github/workflows/*.yml | cut -d: -f2 | sort)
+        WORKFLOW_NAMES=$(grep -h "^name:" .github/workflows/*.yml | sort)
         UNIQUE_NAMES=$(echo "$WORKFLOW_NAMES" | sort -u)
         
         if [ "$(echo "$WORKFLOW_NAMES" | wc -l)" != "$(echo "$UNIQUE_NAMES" | wc -l)" ]; then
