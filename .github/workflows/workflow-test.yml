@@ -18,7 +18,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Validate YAML syntax
       run: |
@@ -44,7 +44,7 @@ jobs:
     - name: Check workflow names are unique
       run: |
         echo "Checking for unique workflow names..."
-        WORKFLOW_NAMES=$(grep "^name:" .github/workflows/*.yml | cut -d: -f2 | sort)
+        WORKFLOW_NAMES=$(grep -h "^name:" .github/workflows/*.yml | sort)
         UNIQUE_NAMES=$(echo "$WORKFLOW_NAMES" | sort -u)
         
         if [ "$(echo "$WORKFLOW_NAMES" | wc -l)" != "$(echo "$UNIQUE_NAMES" | wc -l)" ]; then
@@ -63,7 +63,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Setup Node.js
       uses: actions/setup-node@v5
@@ -101,7 +101,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Check action versions
       run: |
@@ -142,7 +142,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Simulate CI workflow (web part)
       run: |
@@ -190,7 +190,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Setup Node.js
       uses: actions/setup-node@v5
@@ -210,8 +210,13 @@ jobs:
         echo "Testing CMake availability on ${{ matrix.os }}..."
         cmake --version || echo "CMake not available"
         
-    - name: Test file operations
+    - name: Test file operations on ${{ matrix.os }}
       run: |
         echo "Testing file operations on ${{ matrix.os }}..."
-        ls -la
+        if [ "$RUNNER_OS" = "Windows" ]; then
+          dir
+        else
+          ls -la
+        fi
         echo "✅ File operations successful on ${{ matrix.os }}"
+      shell: bash

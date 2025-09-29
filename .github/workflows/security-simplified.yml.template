@@ -1,0 +1,37 @@
+# Alternative: Simplified Security Workflow (For Default CodeQL Setup)
+#
+# If you prefer to use GitHub's default CodeQL setup instead of the advanced matrix configuration,
+# you can replace the codeql-analysis job in security.yml with this simplified version.
+#
+# To use this:
+# 1. Enable default CodeQL setup in Settings → Security → Code scanning
+# 2. Replace the codeql-analysis job in security.yml with the content below
+# 3. Remove the matrix strategy and custom build steps
+
+# SIMPLIFIED CODEQL JOB (COPY TO security.yml IF NEEDED):
+#
+# codeql-analysis:
+#   name: 🔍 CodeQL Analysis (Simplified)
+#   runs-on: ubuntu-latest
+#   permissions:
+#     actions: read
+#     contents: read
+#     security-events: write
+#   
+#   steps:
+#   - name: 📥 Checkout code
+#     uses: actions/checkout@v4
+#     
+#   - name: 🔍 Initialize CodeQL
+#     uses: github/codeql-action/init@v3
+#     with:
+#       languages: javascript  # Only JavaScript for simplified setup
+#       
+#   - name: 🔨 Auto-build
+#     uses: github/codeql-action/autobuild@v3
+#     
+#   - name: 🔍 Perform CodeQL Analysis
+#     uses: github/codeql-action/analyze@v3
+
+# NOTE: This simplified version only covers JavaScript analysis.
+# C++ analysis would be handled by the default setup if enabled in repository settings.
