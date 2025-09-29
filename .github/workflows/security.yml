@@ -60,11 +60,23 @@ jobs:
       contents: read
       security-events: write
     
-    # NOTE: This is an ADVANCED CodeQL configuration with matrix strategy
-    # If you get "advanced configurations cannot be processed when default setup is enabled":
-    # 1. Go to Settings → Security → Code scanning
-    # 2. Disable/Remove the default CodeQL setup
-    # 3. See .github/CODEQL_SETUP.md for detailed instructions
+    # ⚠️  IMPORTANT: Advanced CodeQL Configuration Conflict Resolution
+    # 
+    # If you see this error: "CodeQL analyses from advanced configurations cannot be processed when the default setup is enabled"
+    # 
+    # 🔧 QUICK FIX: See .github/CODEQL_QUICK_FIX.md for 5-minute solution
+    # 📖 DETAILED GUIDE: See .github/CODEQL_SETUP.md for comprehensive instructions
+    # 
+    # 🎯 TL;DR: Go to Repository Settings → Security → Code scanning → Disable "Default setup"
+    #          Direct link: https://github.com/GizzZmo/Security-Sentinel/settings/security_analysis
+    # 
+    # ✅ This advanced configuration provides:
+    #    - Multi-language analysis (JavaScript + C++)
+    #    - Custom C++ build integration  
+    #    - Matrix strategy for comprehensive coverage
+    #    - Integration with other security tools
+    # 
+    # 🚨 NO CODE CHANGES NEEDED - This is a GitHub repository settings issue
     strategy:
       fail-fast: false
       matrix:
