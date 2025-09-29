@@ -1,22 +1,22 @@
 
-export enum View {
-  Dashboard = 'Dashboard',
-  NetworkMonitor = 'Network Monitor',
-  ThreatProtection = 'Threat Protection',
-  AIAssistant = 'AI Assistant',
+export enum SecurityView {
+  SecurityDashboard = 'Security Dashboard',
+  NetworkTrafficMonitor = 'Network Traffic Monitor',
+  ThreatDetectionCenter = 'Threat Detection Center',
+  SecurityAIAssistant = 'Security AI Assistant',
 }
 
-export interface ChatMessage {
+export interface SecurityChatMessage {
   role: 'user' | 'model';
   content: string;
 }
 
-export interface NetworkLog {
+export interface NetworkSecurityLog {
   id: number;
   timestamp: string;
   sourceIp: string;
   destinationIp: string;
   protocol: 'TCP' | 'UDP' | 'ICMP' | 'HTTP';
-  threat: 'None' | 'SYN Flood' | 'Port Scan' | 'Suspicious Payload';
-  status: 'Allowed' | 'Blocked';
+  threatType: 'None' | 'SYN Flood' | 'Port Scan' | 'Suspicious Payload';
+  securityStatus: 'Allowed' | 'Blocked';
 }

@@ -3,21 +3,21 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import Card from './Card';
 import Icon from './icon';
 
-const chartData = [
-  { name: 'Mon', 'Blocked Threats': 4, 'Scans': 10 },
-  { name: 'Tue', 'Blocked Threats': 3, 'Scans': 12 },
-  { name: 'Wed', 'Blocked Threats': 5, 'Scans': 8 },
-  { name: 'Thu', 'Blocked Threats': 2, 'Scans': 15 },
-  { name: 'Fri', 'Blocked Threats': 8, 'Scans': 11 },
-  { name: 'Sat', 'Blocked Threats': 12, 'Scans': 20 },
-  { name: 'Sun', 'Blocked Threats': 7, 'Scans': 18 },
+const securityChartData = [
+  { name: 'Mon', 'Blocked Threats': 4, 'Security Scans': 10 },
+  { name: 'Tue', 'Blocked Threats': 3, 'Security Scans': 12 },
+  { name: 'Wed', 'Blocked Threats': 5, 'Security Scans': 8 },
+  { name: 'Thu', 'Blocked Threats': 2, 'Security Scans': 15 },
+  { name: 'Fri', 'Blocked Threats': 8, 'Security Scans': 11 },
+  { name: 'Sat', 'Blocked Threats': 12, 'Security Scans': 20 },
+  { name: 'Sun', 'Blocked Threats': 7, 'Security Scans': 18 },
 ];
 
-const Dashboard: React.FC = () => {
+const SecurityDashboard: React.FC = () => {
   return (
     <div className="p-6 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card title="System Status">
+        <Card title="Security System Status">
           <div className="flex items-center text-green-400">
             <Icon name="shield" className="w-10 h-10 mr-4" />
             <div>
@@ -26,19 +26,19 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         </Card>
-        <Card title="Threats Blocked (24h)">
+        <Card title="Threats Blocked Today">
           <div className="flex items-center text-blue-400">
             <p className="text-4xl font-bold mr-4">137</p>
             <p className="text-sm text-slate-400">Malicious attempts neutralized</p>
           </div>
         </Card>
-        <Card title="Network Scans Detected">
+        <Card title="Network Security Scans">
           <div className="flex items-center text-yellow-400">
             <p className="text-4xl font-bold mr-4">42</p>
             <p className="text-sm text-slate-400">Reconnaissance activities logged</p>
           </div>
         </Card>
-        <Card title="Firewall Rules">
+        <Card title="Active Firewall Rules">
           <div className="flex items-center text-slate-300">
             <p className="text-4xl font-bold mr-4">2,154</p>
             <p className="text-sm text-slate-400">Active protection rules</p>
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
       <Card title="Weekly Security Overview">
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
-            <BarChart data={chartData}>
+            <BarChart data={securityChartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
               <XAxis dataKey="name" stroke="#94a3b8" />
               <YAxis stroke="#94a3b8" />
@@ -62,7 +62,7 @@ const Dashboard: React.FC = () => {
               />
               <Legend wrapperStyle={{color: '#e2e8f0'}}/>
               <Bar dataKey="Blocked Threats" fill="#60a5fa" />
-              <Bar dataKey="Scans" fill="#facc15" />
+              <Bar dataKey="Security Scans" fill="#facc15" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -71,4 +71,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default SecurityDashboard;

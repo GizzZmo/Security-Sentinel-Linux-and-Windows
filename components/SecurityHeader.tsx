@@ -2,11 +2,11 @@
 import React from 'react';
 import Icon from './icon';
 
-interface HeaderProps {
+interface SecurityHeaderProps {
   title: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ title }) => {
+const SecurityHeader: React.FC<SecurityHeaderProps> = ({ title }) => {
   return (
     <header className="flex items-center justify-between p-4 bg-slate-900/50 backdrop-blur-sm border-b border-slate-700/50">
       <h2 className="text-2xl font-semibold text-white">{title}</h2>
@@ -18,4 +18,4 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
   );
 };
 
-export default Header;
+export default SecurityHeader;

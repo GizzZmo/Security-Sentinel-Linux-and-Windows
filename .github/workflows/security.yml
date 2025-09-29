@@ -16,7 +16,7 @@ jobs:
     
     steps:
     - name: 📥 Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: 🟢 Setup Node.js
       uses: actions/setup-node@v5
@@ -34,7 +34,8 @@ jobs:
         
         # Parse and display results
         if [ -s audit-report.json ]; then
-          vulnerabilities=$(cat audit-report.json | jq -r '.metadata.vulnerabilities | to_entries[] | "\(.key): \(.value)"' 2>/dev/null || echo "Unable to parse vulnerabilities")
+          # Basic parsing without jq for compatibility
+          vulnerabilities=$(grep -o '"vulnerabilities":{[^}]*}' audit-report.json | head -1 || echo "Unable to parse vulnerabilities")
           echo "**Vulnerabilities found:**" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "$vulnerabilities" >> $GITHUB_STEP_SUMMARY
@@ -59,6 +60,11 @@ jobs:
       contents: read
       security-events: write
     
+    # NOTE: This is an ADVANCED CodeQL configuration with matrix strategy
+    # If you get "advanced configurations cannot be processed when default setup is enabled":
+    # 1. Go to Settings → Security → Code scanning
+    # 2. Disable/Remove the default CodeQL setup
+    # 3. See .github/CODEQL_SETUP.md for detailed instructions
     strategy:
       fail-fast: false
       matrix:
@@ -66,7 +72,7 @@ jobs:
     
     steps:
     - name: 📥 Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: 🔍 Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -108,7 +114,7 @@ jobs:
     
     steps:
     - name: 📥 Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 0  # Full history for better secret detection
         
@@ -132,7 +138,7 @@ jobs:
     
     steps:
     - name: 📥 Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: 🟢 Setup Node.js
       uses: actions/setup-node@v5
