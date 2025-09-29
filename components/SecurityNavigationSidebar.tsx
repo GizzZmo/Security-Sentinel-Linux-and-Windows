@@ -1,18 +1,18 @@
 
 import React from 'react';
-import { View } from '../types';
+import { SecurityView } from '../types';
 import Icon from './icon';
 
-interface SidebarProps {
-  currentView: View;
-  onViewChange: (view: View) => void;
+interface SecurityNavigationSidebarProps {
+  currentView: SecurityView;
+  onViewChange: (view: SecurityView) => void;
 }
 
-const NavItem: React.FC<{
-  view: View;
+const SecurityNavigationItem: React.FC<{
+  view: SecurityView;
   iconName: string;
-  currentView: View;
-  onViewChange: (view: View) => void;
+  currentView: SecurityView;
+  onViewChange: (view: SecurityView) => void;
 }> = ({ view, iconName, currentView, onViewChange }) => {
   const isActive = currentView === view;
   return (
@@ -30,7 +30,7 @@ const NavItem: React.FC<{
   );
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
+const SecurityNavigationSidebar: React.FC<SecurityNavigationSidebarProps> = ({ currentView, onViewChange }) => {
   return (
     <div className="flex flex-col w-64 h-full bg-slate-800/30 backdrop-blur-md border-r border-slate-700/50 p-4">
       <div className="flex items-center mb-8">
@@ -38,10 +38,10 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
         <h1 className="ml-3 text-xl font-bold text-white">Security Sentinel</h1>
       </div>
       <nav className="flex flex-col space-y-2">
-        <NavItem view={View.Dashboard} iconName="dashboard" currentView={currentView} onViewChange={onViewChange} />
-        <NavItem view={View.NetworkMonitor} iconName="network" currentView={currentView} onViewChange={onViewChange} />
-        <NavItem view={View.ThreatProtection} iconName="shield" currentView={currentView} onViewChange={onViewChange} />
-        <NavItem view={View.AIAssistant} iconName="assistant" currentView={currentView} onViewChange={onViewChange} />
+        <SecurityNavigationItem view={SecurityView.SecurityDashboard} iconName="dashboard" currentView={currentView} onViewChange={onViewChange} />
+        <SecurityNavigationItem view={SecurityView.NetworkTrafficMonitor} iconName="network" currentView={currentView} onViewChange={onViewChange} />
+        <SecurityNavigationItem view={SecurityView.ThreatDetectionCenter} iconName="shield" currentView={currentView} onViewChange={onViewChange} />
+        <SecurityNavigationItem view={SecurityView.SecurityAIAssistant} iconName="assistant" currentView={currentView} onViewChange={onViewChange} />
       </nav>
       <div className="mt-auto text-center text-xs text-slate-500">
         <p>&copy; 2024 Windows 11 Sentinel</p>
@@ -51,4 +51,4 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
   );
 };
 
-export default Sidebar;
+export default SecurityNavigationSidebar;

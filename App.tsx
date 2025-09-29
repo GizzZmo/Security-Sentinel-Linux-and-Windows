@@ -1,42 +1,42 @@
 
 import React, { useState } from 'react';
-import { View } from './types';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import Dashboard from './components/Dashboard';
-import NetworkMonitor from './components/NetworkMonitor';
-import ThreatProtection from './components/ThreatProtection';
-import AIAssistant from './components/AIAssistant';
+import { SecurityView } from './types';
+import SecurityNavigationSidebar from './components/SecurityNavigationSidebar';
+import SecurityHeader from './components/SecurityHeader';
+import SecurityDashboard from './components/SecurityDashboard';
+import NetworkTrafficMonitor from './components/NetworkTrafficMonitor';
+import ThreatDetectionCenter from './components/ThreatDetectionCenter';
+import SecurityAIAssistant from './components/SecurityAIAssistant';
 
-const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<View>(View.Dashboard);
+const SecuritySentinelApp: React.FC = () => {
+  const [currentView, setCurrentView] = useState<SecurityView>(SecurityView.SecurityDashboard);
 
-  const renderView = () => {
+  const renderSecurityView = () => {
     switch (currentView) {
-      case View.Dashboard:
-        return <Dashboard />;
-      case View.NetworkMonitor:
-        return <NetworkMonitor />;
-      case View.ThreatProtection:
-        return <ThreatProtection />;
-      case View.AIAssistant:
-        return <AIAssistant />;
+      case SecurityView.SecurityDashboard:
+        return <SecurityDashboard />;
+      case SecurityView.NetworkTrafficMonitor:
+        return <NetworkTrafficMonitor />;
+      case SecurityView.ThreatDetectionCenter:
+        return <ThreatDetectionCenter />;
+      case SecurityView.SecurityAIAssistant:
+        return <SecurityAIAssistant />;
       default:
-        return <Dashboard />;
+        return <SecurityDashboard />;
     }
   };
 
   return (
     <div className="flex h-screen w-screen overflow-hidden">
-      <Sidebar currentView={currentView} onViewChange={setCurrentView} />
+      <SecurityNavigationSidebar currentView={currentView} onViewChange={setCurrentView} />
       <main className="flex-1 flex flex-col bg-slate-900">
-        <Header title={currentView} />
+        <SecurityHeader title={currentView} />
         <div className="flex-1 overflow-y-auto">
-          {renderView()}
+          {renderSecurityView()}
         </div>
       </main>
     </div>
   );
 };
 
-export default App;
+export default SecuritySentinelApp;

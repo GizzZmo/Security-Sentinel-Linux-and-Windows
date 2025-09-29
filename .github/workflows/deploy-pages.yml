@@ -35,7 +35,7 @@ jobs:
     
     steps:
     - name: 📥 Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: 🟢 Setup Node.js
       uses: actions/setup-node@v5
@@ -50,7 +50,7 @@ jobs:
       run: npm run build
       env:
         # GitHub Pages base path
-        VITE_BASE: /security-sentinel-for-windows-11/
+        VITE_BASE: /Security-Sentinel/
         
     - name: 📄 Create deployment info
       run: |
@@ -71,8 +71,8 @@ jobs:
         <script>
         console.log('🚀 Security Sentinel Web Interface');
         console.log('📅 Deployed:', new Date().toISOString());
-        console.log('🔗 Repository: https://github.com/GizzZmo/security-sentinel-for-windows-11');
-        console.log('📚 Documentation: https://github.com/GizzZmo/security-sentinel-for-windows-11/wiki');
+        console.log('🔗 Repository: https://github.com/GizzZmo/Security-Sentinel');
+        console.log('📚 Documentation: https://github.com/GizzZmo/Security-Sentinel/wiki');
         </script>
         EOF
         
@@ -108,8 +108,8 @@ jobs:
         echo "## 🔗 Quick Links" >> $GITHUB_STEP_SUMMARY
         echo "- 🌐 [**Live Demo**](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
         echo "- 📱 [**Mobile View**](${{ steps.deployment.outputs.page_url }}?mobile=1)" >> $GITHUB_STEP_SUMMARY
-        echo "- 📚 [**Documentation**](https://github.com/GizzZmo/security-sentinel-for-windows-11/wiki)" >> $GITHUB_STEP_SUMMARY
-        echo "- 💾 [**Download C++ App**](https://github.com/GizzZmo/security-sentinel-for-windows-11/releases)" >> $GITHUB_STEP_SUMMARY
+        echo "- 📚 [**Documentation**](https://github.com/GizzZmo/Security-Sentinel/wiki)" >> $GITHUB_STEP_SUMMARY
+        echo "- 💾 [**Download C++ App**](https://github.com/GizzZmo/Security-Sentinel/releases)" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "## ⚙️ Setup Instructions" >> $GITHUB_STEP_SUMMARY
         echo "1. Get your Gemini API key from [Google AI Studio](https://makersuite.google.com/app/apikey)" >> $GITHUB_STEP_SUMMARY

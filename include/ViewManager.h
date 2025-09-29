@@ -7,19 +7,19 @@
 
 class SecurityApp;
 
+enum class View {
+    Dashboard,
+    NetworkMonitor,
+    ThreatProtection,
+    AIAssistant
+};
+
 /**
- * Manages different views/screens in the application
- * Handles navigation and view state
+ * Manages different security monitoring views/screens in the application
+ * Handles navigation between security modules and view state management
  */
 class ViewManager {
 public:
-    enum class View {
-        Dashboard,
-        NetworkMonitor,
-        ThreatProtection,
-        AIAssistant
-    };
-
     explicit ViewManager(SecurityApp* app);
     ~ViewManager();
 

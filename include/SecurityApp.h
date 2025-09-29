@@ -12,8 +12,8 @@ class GeminiClient;
 class SecurityMonitor;
 
 /**
- * Main application class for Windows 11 Security Sentinel
- * Coordinates all components and manages application lifecycle
+ * Main security application class for Windows 11 & Linux Security Sentinel
+ * Coordinates all security components and manages application lifecycle
  */
 class SecurityApp {
 public:
