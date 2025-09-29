@@ -60,6 +60,11 @@ jobs:
       contents: read
       security-events: write
     
+    # NOTE: This is an ADVANCED CodeQL configuration with matrix strategy
+    # If you get "advanced configurations cannot be processed when default setup is enabled":
+    # 1. Go to Settings → Security → Code scanning
+    # 2. Disable/Remove the default CodeQL setup
+    # 3. See .github/CODEQL_SETUP.md for detailed instructions
     strategy:
       fail-fast: false
       matrix:
