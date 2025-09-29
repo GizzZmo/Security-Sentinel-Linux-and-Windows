@@ -150,6 +150,7 @@
 |----------|-------------|
 | **[❓ Common Issues](wiki/Common-Issues.md)** | Quick problem solving |
 | **[🔍 Debugging Guide](wiki/Debugging-Guide.md)** | Troubleshooting techniques |
+| **[⚙️ CodeQL Setup](.github/CODEQL_SETUP.md)** | Fix CodeQL configuration conflicts |
 | **[⚡ Performance Optimization](wiki/Performance-Optimization.md)** | Improve efficiency |
 | **[📞 Support](wiki/Support.md)** | Getting help |
 
