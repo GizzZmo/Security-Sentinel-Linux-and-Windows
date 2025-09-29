@@ -183,7 +183,7 @@ enable_profiling=true
 winget install OpenJS.NodeJS
 
 # Verify installation
-node --version    # Should be 18.x or later
+node --version    # Should be 20.19+ or later
 npm --version     # Should be 8.x or later
 ```
 
@@ -191,13 +191,13 @@ npm --version     # Should be 8.x or later
 ```bash
 # Using Volta (recommended for team development)
 winget install Volta.Volta
-volta install node@18
+volta install node@20
 volta install npm@latest
 
 # Using nvm-windows
 winget install CoreyButler.NVMforWindows
-nvm install 18.17.0
-nvm use 18.17.0
+nvm install 20.19.0
+nvm use 20.19.0
 ```
 
 ### Web Development Setup
