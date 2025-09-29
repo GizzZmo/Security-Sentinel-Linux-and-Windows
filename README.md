@@ -485,6 +485,62 @@ npm run dev
 - Provide detailed information when reporting problems
 - Follow responsible disclosure for security issues
 
+## 🔧 Troubleshooting
+
+### Common Build Issues
+
+#### ❌ CodeQL Error: "Advanced configurations cannot be processed when default setup is enabled"
+
+This is a **repository settings issue**, not a code problem.
+
+**Quick Fix** (5 minutes):
+1. Go to: [Repository Settings → Security](https://github.com/GizzZmo/Security-Sentinel/settings/security_analysis)
+2. Find "Code scanning" → "Default setup"
+3. Click "Remove" or "Disable"
+4. Re-run your workflow
+
+📖 **Detailed Guide**: [`.github/CODEQL_QUICK_FIX.md`](.github/CODEQL_QUICK_FIX.md)
+
+#### ❌ C++ Build Failures
+
+```bash
+# Install required dependencies
+# Windows (with vcpkg)
+vcpkg install --triplet x64-windows
+
+# Linux (Ubuntu/Debian)
+sudo apt-get update
+sudo apt-get install build-essential cmake
+
+# Verify CMake version (requires 3.16+)
+cmake --version
+```
+
+#### ❌ Node.js/Vite Issues
+
+```bash
+# Update to Node.js 20.19+ (required for Vite 7+)
+nvm install 20.19.0  # or download from nodejs.org
+
+# Clear cache and reinstall
+rm -rf node_modules package-lock.json
+npm cache clean --force
+npm install
+```
+
+#### ❌ GitHub Actions Permissions
+
+If workflows fail with permission errors:
+1. Go to Settings → Actions → General
+2. Enable "Read and write permissions"
+3. Check "Allow GitHub Actions to create and approve pull requests"
+
+### Getting Help
+
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/GizzZmo/security-sentinel-for-windows-11/issues)
+- 💬 **Questions**: [GitHub Discussions](https://github.com/GizzZmo/security-sentinel-for-windows-11/discussions)
+- 📖 **Documentation**: [Wiki](wiki/Home.md)
+
 ## 📄 License & Legal
 
 ### Open Source License
