@@ -22,10 +22,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: Setup Node.js
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
       with:
         node-version: '20.19.0'
         cache: 'npm'
@@ -63,10 +63,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: Setup Node.js
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
       with:
         node-version: '20.19.0'
         cache: 'npm'
@@ -91,10 +91,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: Setup Node.js
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
       with:
         node-version: '20.19.0'
         cache: 'npm'
@@ -124,7 +124,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: Install markdown linter
       run: |
@@ -151,10 +151,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: Setup Node.js
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
       with:
         node-version: '20.19.0'
         cache: 'npm'

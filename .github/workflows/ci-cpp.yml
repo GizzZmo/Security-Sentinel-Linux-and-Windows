@@ -32,13 +32,13 @@ jobs:
         
     steps:
     - name: 📥 Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: 🛠️ Setup MSVC
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
       
     - name: 📦 Setup CMake
-      uses: lukka/get-cmake@latest
+      uses: lukka/get-cmake@b516803a3c5fac40e2e922349d15cdebdba01e60
       
     - name: 🔧 Configure CMake
       run: |
@@ -79,7 +79,7 @@ jobs:
         }
         
     - name: 📤 Upload build artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
       with:
         name: cpp-build-${{ matrix.build_type }}
         path: |
@@ -94,13 +94,13 @@ jobs:
     
     steps:
     - name: 📥 Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: 🛠️ Setup MSVC
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
       
     - name: 📦 Setup CMake
-      uses: lukka/get-cmake@latest
+      uses: lukka/get-cmake@b516803a3c5fac40e2e922349d15cdebdba01e60
       
     - name: 🔧 Configure with static analysis
       run: |
@@ -123,10 +123,10 @@ jobs:
     
     steps:
     - name: 📥 Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: 🔍 Run Semgrep security scan
-      uses: semgrep/semgrep-action@v1
+      uses: semgrep/semgrep-action@713efdd345f3035192eaa63f56867b88e63e4e5d
       with:
         config: >-
           p/security-audit
@@ -145,7 +145,7 @@ jobs:
         echo "This is optional and workflow will continue normally"
         
     - name: 📤 Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@64d10c13136e1c5bce3e5fbde8d4906eeaafc885
       with:
         sarif_file: semgrep.sarif
       if: always() && secrets.SEMGREP_APP_TOKEN != ''
