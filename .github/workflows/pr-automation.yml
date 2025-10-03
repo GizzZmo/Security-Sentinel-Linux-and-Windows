@@ -19,10 +19,10 @@ jobs:
       
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: Label based on changed files
-      uses: actions/github-script@v8
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
       with:
         script: |
           const { data: files } = await github.rest.pulls.listFiles({
@@ -81,7 +81,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: Check PR title format
       run: |
@@ -133,10 +133,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: Check PR size
-      uses: actions/github-script@v8
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
       with:
         script: |
           const { data: files } = await github.rest.pulls.listFiles({
@@ -191,10 +191,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
     - name: Handle commands
-      uses: actions/github-script@v8
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
       with:
         script: |
           const comment = context.payload.comment.body.trim();
