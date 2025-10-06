@@ -303,6 +303,10 @@ void ClearConsole() {
 #endif
 }
 
+void SetConsoleTitle(const std::string& title) {
+    SetConsoleTitleWide(title);
+}
+
 void SetConsoleTitleWide(const std::string& title) {
 #ifdef _WIN32
     // Optimize: use a stack buffer for most titles, heap only if needed
@@ -621,10 +625,6 @@ void Config::SetInt(const std::string& section, const std::string& key, int valu
 
 void Config::SetBool(const std::string& section, const std::string& key, bool value) {
     SetString(section, key, value ? "true" : "false");
-}
-
-void SetConsoleTitle(const std::string& title) {
-    SetConsoleTitleWide(title);
 }
 
 } // namespace Utils
