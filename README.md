@@ -493,13 +493,16 @@ npm run dev
 
 This is a **repository settings issue**, not a code problem.
 
-**Quick Fix** (5 minutes):
+**Quick Fix** (2 minutes):
 1. Go to: [Repository Settings → Security](https://github.com/GizzZmo/Security-Sentinel/settings/security_analysis)
 2. Find "Code scanning" → "Default setup"
 3. Click "Remove" or "Disable"
 4. Re-run your workflow
 
-📖 **Detailed Guide**: [`.github/CODEQL_QUICK_FIX.md`](.github/CODEQL_QUICK_FIX.md)
+📖 **Documentation**:
+- **Fast Fix**: [`.github/CODEQL_ERROR_HELP.md`](.github/CODEQL_ERROR_HELP.md) - Ultra-quick 4-step guide
+- **Detailed Guide**: [`.github/CODEQL_QUICK_FIX.md`](.github/CODEQL_QUICK_FIX.md) - Comprehensive troubleshooting
+- **Full Setup**: [`.github/CODEQL_SETUP.md`](.github/CODEQL_SETUP.md) - Complete configuration guide
 
 #### ❌ C++ Build Failures
 
