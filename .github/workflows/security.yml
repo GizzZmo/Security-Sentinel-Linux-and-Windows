@@ -60,23 +60,39 @@ jobs:
       contents: read
       security-events: write
     
-    # ⚠️  IMPORTANT: Advanced CodeQL Configuration Conflict Resolution
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    # ⚠️  ADVANCED CODEQL CONFIGURATION - REPOSITORY SETTINGS REQUIRED
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     # 
-    # If you see this error: "CodeQL analyses from advanced configurations cannot be processed when the default setup is enabled"
+    # 🚨 IF YOU SEE THIS ERROR:
+    # "CodeQL analyses from advanced configurations cannot be processed when the default setup is enabled"
     # 
-    # 🔧 QUICK FIX: See .github/CODEQL_QUICK_FIX.md for 5-minute solution
-    # 📖 DETAILED GUIDE: See .github/CODEQL_SETUP.md for comprehensive instructions
+    # 🔧 SOLUTION (Required - Takes 2 minutes):
     # 
-    # 🎯 TL;DR: Go to Repository Settings → Security → Code scanning → Disable "Default setup"
-    #          Direct link: https://github.com/GizzZmo/Security-Sentinel/settings/security_analysis
+    #    1. Go to: https://github.com/GizzZmo/Security-Sentinel/settings/security_analysis
+    #    2. Find "Code scanning" section
+    #    3. Look for "Default setup" - it will show as "Active" or "Enabled"
+    #    4. Click the "..." menu or "Configure" button
+    #    5. Select "Remove" or "Disable"
+    #    6. Confirm the change
+    #    7. Re-run this workflow
     # 
-    # ✅ This advanced configuration provides:
-    #    - Multi-language analysis (JavaScript + C++)
-    #    - Custom C++ build integration  
-    #    - Matrix strategy for comprehensive coverage
-    #    - Integration with other security tools
+    # 📚 DOCUMENTATION:
+    #    - Quick Fix Guide: .github/CODEQL_QUICK_FIX.md
+    #    - Detailed Setup: .github/CODEQL_SETUP.md
+    #    - README Troubleshooting: README.md (search "CodeQL")
     # 
-    # 🚨 NO CODE CHANGES NEEDED - This is a GitHub repository settings issue
+    # ✅ WHY USE THIS ADVANCED CONFIGURATION:
+    #    - ✓ Multi-language analysis (JavaScript + C++)
+    #    - ✓ Custom C++ build with CMake integration
+    #    - ✓ Matrix strategy for comprehensive coverage
+    #    - ✓ Better integration with security workflow
+    #    - ✓ More control over analysis parameters
+    # 
+    # ⚡ THIS IS NOT A CODE BUG - It's a repository configuration conflict
+    #    The workflow file is correct. Only repository settings need adjustment.
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    
     strategy:
       fail-fast: false
       matrix:
@@ -85,6 +101,28 @@ jobs:
     steps:
     - name: 📥 Checkout code
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+    
+    - name: ℹ️ Configuration Info
+      run: |
+        echo "## 🔍 CodeQL Configuration Info" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Mode:** Advanced Configuration with Matrix Strategy" >> $GITHUB_STEP_SUMMARY
+        echo "**Language:** ${{ matrix.language }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Build:** ${{ matrix.language == 'cpp' && 'Custom CMake build' || 'Auto-build' }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### ⚠️ Common Issue Alert" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "If this job fails with: **'CodeQL analyses from advanced configurations cannot be processed when the default setup is enabled'**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**This means:** GitHub's default Code Scanning is conflicting with this advanced configuration." >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Quick Fix (2 minutes):**" >> $GITHUB_STEP_SUMMARY
+        echo "1. Visit: https://github.com/${{ github.repository }}/settings/security_analysis" >> $GITHUB_STEP_SUMMARY
+        echo "2. Find 'Code scanning' → 'Default setup'" >> $GITHUB_STEP_SUMMARY
+        echo "3. Click 'Disable' or 'Remove'" >> $GITHUB_STEP_SUMMARY
+        echo "4. Re-run this workflow" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📖 **Detailed Guide:** [.github/CODEQL_QUICK_FIX.md](https://github.com/${{ github.repository }}/blob/main/.github/CODEQL_QUICK_FIX.md)" >> $GITHUB_STEP_SUMMARY
       
     - name: 🔍 Initialize CodeQL
       uses: github/codeql-action/init@64d10c13136e1c5bce3e5fbde8d4906eeaafc885
