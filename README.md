@@ -503,6 +503,7 @@ This is a **repository settings issue**, not a code problem.
 - **Fast Fix**: [`.github/CODEQL_ERROR_HELP.md`](.github/CODEQL_ERROR_HELP.md) - Ultra-quick 4-step guide
 - **Detailed Guide**: [`.github/CODEQL_QUICK_FIX.md`](.github/CODEQL_QUICK_FIX.md) - Comprehensive troubleshooting
 - **Full Setup**: [`.github/CODEQL_SETUP.md`](.github/CODEQL_SETUP.md) - Complete configuration guide
+- **Configuration Reference**: [`.github/ADVANCED_CODEQL_SETUP.md`](.github/ADVANCED_CODEQL_SETUP.md) - Advanced setup confirmation
 
 #### ❌ C++ Build Failures
 

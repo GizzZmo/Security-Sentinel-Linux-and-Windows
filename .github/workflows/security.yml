@@ -1,5 +1,37 @@
 name: 🔐 Security Scanning
 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ⚠️  IMPORTANT: ADVANCED CODEQL SETUP - REQUIRES REPOSITORY CONFIGURATION
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#
+# This workflow uses ADVANCED CodeQL configuration for comprehensive security scanning.
+#
+# 🚨 IF YOU SEE THIS ERROR:
+# "CodeQL analyses from advanced configurations cannot be processed when the default setup is enabled"
+#
+# This is NOT a code bug - it's a repository settings conflict!
+#
+# 🔧 SOLUTION (2-minute fix):
+# 1. Go to: https://github.com/GizzZmo/Security-Sentinel/settings/security_analysis
+# 2. Find "Code scanning" → "Default setup" (will show as Active/Enabled)
+# 3. Click "..." menu → Select "Remove" or "Disable"
+# 4. Confirm and re-run this workflow
+#
+# 📖 DOCUMENTATION:
+# - Quick Fix: .github/CODEQL_ERROR_HELP.md (4-step guide)
+# - Detailed: .github/CODEQL_QUICK_FIX.md (comprehensive troubleshooting)
+# - Full Setup: .github/CODEQL_SETUP.md (complete documentation)
+#
+# ✅ WHY THIS ADVANCED CONFIGURATION IS BETTER:
+# - Multi-language analysis (JavaScript + C++ in parallel)
+# - Custom C++ build with CMake integration for accurate analysis
+# - Matrix strategy for comprehensive coverage
+# - Better integration with security workflow
+# - Full control over analysis parameters
+#
+# The workflow configuration below is correct - only repository settings need adjustment.
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 on:
   push:
     branches: [ main, develop ]
@@ -114,15 +146,26 @@ jobs:
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "If this job fails with: **'CodeQL analyses from advanced configurations cannot be processed when the default setup is enabled'**" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "**This means:** GitHub's default Code Scanning is conflicting with this advanced configuration." >> $GITHUB_STEP_SUMMARY
+        echo "**Root Cause:** GitHub's default Code Scanning setup is conflicting with this advanced configuration." >> $GITHUB_STEP_SUMMARY
+        echo "Both cannot be enabled simultaneously - you must choose one." >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "**Quick Fix (2 minutes):**" >> $GITHUB_STEP_SUMMARY
         echo "1. Visit: https://github.com/${{ github.repository }}/settings/security_analysis" >> $GITHUB_STEP_SUMMARY
-        echo "2. Find 'Code scanning' → 'Default setup'" >> $GITHUB_STEP_SUMMARY
-        echo "3. Click 'Disable' or 'Remove'" >> $GITHUB_STEP_SUMMARY
-        echo "4. Re-run this workflow" >> $GITHUB_STEP_SUMMARY
+        echo "2. Find 'Code scanning' → 'Default setup' (shows as Active/Enabled)" >> $GITHUB_STEP_SUMMARY
+        echo "3. Click the '...' menu → Select 'Remove' or 'Disable'" >> $GITHUB_STEP_SUMMARY
+        echo "4. Confirm the change" >> $GITHUB_STEP_SUMMARY
+        echo "5. Re-run this workflow" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "📖 **Detailed Guide:** [.github/CODEQL_QUICK_FIX.md](https://github.com/${{ github.repository }}/blob/main/.github/CODEQL_QUICK_FIX.md)" >> $GITHUB_STEP_SUMMARY
+        echo "**Why keep this advanced setup?**" >> $GITHUB_STEP_SUMMARY
+        echo "✓ Multi-language analysis (JavaScript + C++)" >> $GITHUB_STEP_SUMMARY
+        echo "✓ Custom C++ build with CMake integration" >> $GITHUB_STEP_SUMMARY
+        echo "✓ Better control over analysis parameters" >> $GITHUB_STEP_SUMMARY
+        echo "✓ Integration with comprehensive security workflow" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📖 **Detailed Guides:**" >> $GITHUB_STEP_SUMMARY
+        echo "- [Quick Fix](.github/CODEQL_ERROR_HELP.md) - Ultra-quick 4-step guide" >> $GITHUB_STEP_SUMMARY
+        echo "- [Detailed Troubleshooting](.github/CODEQL_QUICK_FIX.md) - Comprehensive solution" >> $GITHUB_STEP_SUMMARY
+        echo "- [Complete Setup Guide](.github/CODEQL_SETUP.md) - Full documentation" >> $GITHUB_STEP_SUMMARY
       
     - name: 🔍 Initialize CodeQL
       uses: github/codeql-action/init@64d10c13136e1c5bce3e5fbde8d4906eeaafc885
