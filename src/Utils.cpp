@@ -16,6 +16,8 @@
 #include <conio.h>
 #pragma comment(lib, "pdh.lib")
 #pragma comment(lib, "psapi.lib")
+// Undefine Windows macros that conflict with our function names
+#undef SetConsoleTitle
 #endif
 
 namespace Utils {
