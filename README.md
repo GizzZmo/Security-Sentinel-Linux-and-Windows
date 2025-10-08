@@ -144,6 +144,7 @@
 | **[📡 API Reference](wiki/API-Reference.md)** | Complete API documentation |
 | **[🔨 Development Setup](wiki/Development-Setup.md)** | Build environment setup |
 | **[🤝 Contributing Guidelines](wiki/Contributing-Guidelines.md)** | How to contribute |
+| **[🔐 SARIF Integration](docs/SARIF_INTEGRATION.md)** | Security scanning & code analysis |
 
 ### 🆘 **Support & Troubleshooting**
 | Resource | Description |

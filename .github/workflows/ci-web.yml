@@ -77,6 +77,10 @@ jobs:
   lint:
     name: 🧹 Code Quality
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     
     steps:
     - name: 📥 Checkout code
@@ -91,15 +95,37 @@ jobs:
     - name: 📦 Install dependencies
       run: npm ci
       
-    - name: 🔍 Run ESLint (if configured)
+    - name: 🔍 Run ESLint with SARIF output
       run: |
         if [ -f ".eslintrc.js" ] || [ -f ".eslintrc.json" ] || [ -f "eslint.config.js" ] || [ -f ".eslintrc" ] || [ -f "eslint.config.mjs" ]; then
-          echo "ESLint configuration found, running linter..."
-          npx eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 10 || echo "ESLint found issues (allowing up to 10 warnings)"
+          echo "ESLint configuration found, running linter with SARIF output..."
+          npm install --save-dev @microsoft/eslint-formatter-sarif
+          npx eslint . --ext .ts,.tsx,.js,.jsx \
+            --format @microsoft/eslint-formatter-sarif \
+            --output-file eslint-results.sarif || echo "ESLint found issues"
+          
+          # Also run with standard output for console
+          npx eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 10 || echo "ESLint completed with warnings"
         else
           echo "✓ ESLint not configured, skipping linting"
         fi
       continue-on-error: true
+      
+    - name: 📤 Upload ESLint SARIF results to GitHub
+      uses: github/codeql-action/upload-sarif@64d10c13136e1c5bce3e5fbde8d4906eeaafc885
+      with:
+        sarif_file: eslint-results.sarif
+        category: eslint
+      if: always() && hashFiles('eslint-results.sarif') != ''
+      continue-on-error: true
+      
+    - name: 📤 Upload ESLint results as artifact
+      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      with:
+        name: eslint-sarif-results
+        path: eslint-results.sarif
+        retention-days: 30
+      if: always() && hashFiles('eslint-results.sarif') != ''
       
     - name: 🎨 Run Prettier check (if configured)
       run: |
@@ -113,6 +139,10 @@ jobs:
   security-scan:
     name: 🔒 Security Audit
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     
     steps:
     - name: 📥 Checkout code
@@ -124,10 +154,47 @@ jobs:
         node-version: '20.x'
         cache: 'npm'
         
-    - name: 🔍 Run npm audit
+    - name: 📦 Install dependencies
+      run: npm ci
+        
+    - name: 🔍 Run npm audit with JSON output
       run: |
         echo "🔒 Running security audit..."
-        npm audit --audit-level moderate || echo "⚠️ Security issues found, but workflow continues"
-        echo "### Security Audit Results 🔒" >> $GITHUB_STEP_SUMMARY
-        echo "See full results above. Non-critical vulnerabilities are informational." >> $GITHUB_STEP_SUMMARY
+        npm audit --json > npm-audit.json || echo "⚠️ Security issues found, but workflow continues"
+        cat npm-audit.json
       continue-on-error: true
+      
+    - name: 🔄 Convert npm audit to SARIF
+      run: |
+        # Install npm-audit-sarif converter
+        npm install -g npm-audit-sarif
+        
+        # Convert npm audit JSON to SARIF format
+        cat npm-audit.json | npx npm-audit-sarif@latest > npm-audit.sarif || echo "Conversion completed"
+        
+        # Display summary
+        echo "### Security Audit Results 🔒" >> $GITHUB_STEP_SUMMARY
+        if [ -s npm-audit.sarif ]; then
+          echo "✅ SARIF report generated successfully" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "ℹ️ No vulnerabilities found or SARIF generation skipped" >> $GITHUB_STEP_SUMMARY
+        fi
+      continue-on-error: true
+      
+    - name: 📤 Upload npm audit SARIF to GitHub
+      uses: github/codeql-action/upload-sarif@64d10c13136e1c5bce3e5fbde8d4906eeaafc885
+      with:
+        sarif_file: npm-audit.sarif
+        category: npm-audit
+      if: always() && hashFiles('npm-audit.sarif') != ''
+      continue-on-error: true
+      
+    - name: 📤 Upload audit results as artifact
+      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      with:
+        name: npm-audit-results
+        path: |
+          npm-audit.json
+          npm-audit.sarif
+        retention-days: 30
+      if: always()
