@@ -4,6 +4,58 @@
 
 This repository uses SARIF (Static Analysis Results Interchange Format) to upload security scanning results to GitHub's Code Scanning feature. SARIF is a standard JSON format for representing the output from static analysis tools.
 
+### SARIF Integration Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    GitHub Actions Workflows                      │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+        ▼                     ▼                     ▼
+  ┌──────────┐          ┌──────────┐         ┌──────────┐
+  │ ci-web   │          │ ci-cpp   │         │ security │
+  │ workflow │          │ workflow │         │ workflow │
+  └──────────┘          └──────────┘         └──────────┘
+        │                     │                     │
+        │                     │                     │
+   ┌────┴────┐           ┌────┴────┐          ┌────┴────┐
+   │         │           │         │          │         │
+   ▼         ▼           ▼         ▼          ▼         ▼
+┌─────┐  ┌─────┐    ┌─────┐   ┌─────┐   ┌─────┐   ┌─────┐
+│ESLint│ │npm  │    │Semgrep│ │Static│  │CodeQL│  │CodeQL│
+│     │  │audit│    │       │ │Anlys│  │(JS)  │  │(C++) │
+└─────┘  └─────┘    └─────┘   └─────┘   └─────┘   └─────┘
+   │         │           │         │         │         │
+   └────┬────┘           └────┬────┘         └────┬────┘
+        │                     │                    │
+        ▼                     ▼                    ▼
+   Generate SARIF        Generate SARIF      Generate SARIF
+   (formatter/           (native)            (native)
+    converter)
+        │                     │                    │
+        └─────────────────────┼────────────────────┘
+                              │
+                              ▼
+                    ┌──────────────────┐
+                    │ upload-sarif     │
+                    │ GitHub Action    │
+                    └──────────────────┘
+                              │
+                              ▼
+                    ┌──────────────────┐
+                    │ GitHub Security  │
+                    │ Code Scanning    │
+                    └──────────────────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+        ▼                     ▼                     ▼
+   Security Tab         PR Annotations        API Access
+   (Alerts View)       (Inline Comments)    (Programmatic)
+```
+
 ## What is SARIF?
 
 SARIF is an OASIS standard format that allows security tools to output their findings in a consistent, machine-readable format. GitHub Code Scanning uses SARIF files to display security findings in the Security tab of your repository.
