@@ -425,6 +425,7 @@ Common issues and solutions:
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [SARIF Upload](https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github)
+- [SARIF Integration Guide](../docs/SARIF_INTEGRATION.md) - Comprehensive guide to SARIF integration in this repository
 - [GitHub Pages](https://docs.github.com/en/pages)
 
 ---

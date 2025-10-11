@@ -61,6 +61,11 @@ packages/
 *.msi
 *.rpm
 
+# Security scanning outputs
+*.sarif
+npm-audit.json
+audit-results.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

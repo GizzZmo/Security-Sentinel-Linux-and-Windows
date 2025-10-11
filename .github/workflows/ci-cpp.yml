@@ -120,6 +120,10 @@ jobs:
   security-check:
     name: 🔒 Security Scanning
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     
     steps:
     - name: 📥 Checkout code
@@ -143,10 +147,22 @@ jobs:
       run: |
         echo "⚠️ SEMGREP_APP_TOKEN not configured, skipping security scan"
         echo "This is optional and workflow will continue normally"
+        echo "To enable Semgrep scanning, add SEMGREP_APP_TOKEN secret to repository settings"
+        echo "### Security Scan Status" >> $GITHUB_STEP_SUMMARY
+        echo "ℹ️ Semgrep scanning skipped (no token configured)" >> $GITHUB_STEP_SUMMARY
         
-    - name: 📤 Upload SARIF file
+    - name: 📤 Upload SARIF file to GitHub Security
       uses: github/codeql-action/upload-sarif@64d10c13136e1c5bce3e5fbde8d4906eeaafc885
       with:
         sarif_file: semgrep.sarif
-      if: always() && secrets.SEMGREP_APP_TOKEN != ''
+        category: semgrep
+      if: always() && hashFiles('semgrep.sarif') != ''
       continue-on-error: true
+      
+    - name: 📤 Upload SARIF as artifact
+      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      with:
+        name: semgrep-sarif-results
+        path: semgrep.sarif
+        retention-days: 30
+      if: always() && hashFiles('semgrep.sarif') != ''
